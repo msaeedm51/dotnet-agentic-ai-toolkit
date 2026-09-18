@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dotnet-ai-toolkit/schemas/skill-frontmatter.schema.json",
+  "title": "Skill Frontmatter",
+  "type": "object",
+  "required": ["id", "title", "category", "domain", "technologies", "triggers"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(dotnet|agentic-ai)\\.[a-z0-9-]+(\\.[a-z0-9-]+)*$",
+      "description": "Dotted identifier, domain-prefixed, e.g. dotnet.architecture.clean-architecture or agentic-ai.rag"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "category": { "const": "skill" },
+    "domain": { "enum": ["dotnet", "agentic-ai"] },
+    "technologies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "triggers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "requires": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "related": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "optional": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  }
+}

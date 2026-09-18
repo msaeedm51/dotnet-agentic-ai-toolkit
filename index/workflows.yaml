@@ -1,0 +1,76 @@
+# Routing manifest for workflows/**. Mirrors each workflow file's
+# frontmatter — see _meta/frontmatter-schema.md and
+# schemas/index-entry.schema.json.
+
+workflows:
+  - id: workflow.project-discovery
+    path: workflows/project-discovery.md
+    title: Project Discovery
+    category: workflow
+    triggers: [new to this codebase, understand this project, before modifying an unfamiliar project, onboard to this repo]
+
+  - id: workflow.new-feature
+    path: workflows/new-feature.md
+    title: New Feature Development
+    category: workflow
+    triggers: [add a feature, implement, build a new endpoint, new capability]
+
+  - id: workflow.bug-fix
+    path: workflows/bug-fix.md
+    title: Bug Fix (Systematic Debugging)
+    category: workflow
+    triggers: [fix this bug, debug this, something is broken, investigate this error]
+
+  - id: workflow.refactoring
+    path: workflows/refactoring.md
+    title: Refactoring
+    category: workflow
+    triggers: [refactor this, clean up this code, restructure without changing behavior]
+
+  - id: workflow.api-development
+    path: workflows/api-development.md
+    title: API Development
+    category: workflow
+    triggers: [design and build an endpoint, add an api, expose a new resource]
+
+  - id: workflow.database-change
+    path: workflows/database-change.md
+    title: Database Change
+    category: workflow
+    triggers: [schema change, add a migration, alter a table, database migration]
+
+  - id: workflow.authentication-feature
+    path: workflows/authentication-feature.md
+    title: Authentication Feature
+    category: workflow
+    triggers: [design authentication, add login, implement oauth, set up jwt]
+
+  - id: workflow.code-review
+    path: workflows/code-review.md
+    title: Code Review
+    category: workflow
+    triggers: [review this pr, review my code, code review]
+
+  - id: workflow.performance-investigation
+    path: workflows/performance-investigation.md
+    title: Performance Investigation
+    category: workflow
+    triggers: [this is slow, investigate performance, why is this slow, optimize this]
+
+  - id: workflow.production-incident
+    path: workflows/production-incident.md
+    title: Production Incident
+    category: workflow
+    triggers: [production is down, incident response, outage, urgent production bug]
+
+  - id: workflow.architecture-decision
+    path: workflows/architecture-decision.md
+    title: Architecture Decision
+    category: workflow
+    triggers: [architecture decision, should we use this pattern, evaluate this approach, write an adr]
+
+  - id: workflow.agentic-ai-feature
+    path: workflows/agentic-ai-feature.md
+    title: Agentic AI Feature Development
+    category: workflow
+    triggers: [build an agent, implement rag, add tool calling, build a support agent]

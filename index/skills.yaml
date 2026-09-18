@@ -1,0 +1,562 @@
+# Routing manifest for skills/**. Mirrors each skill file's frontmatter —
+# see _meta/frontmatter-schema.md and schemas/index-entry.schema.json.
+#
+# AGENTS.md §4 resolution algorithm: match triggers -> expand via requires
+# (always) -> related (if config/task supports it) -> optional (only if
+# config names it) -> dedupe -> load.
+
+skills:
+  # --- dotnet / architecture ---
+  - id: dotnet.architecture.clean-architecture
+    path: skills/dotnet/architecture/clean-architecture.md
+    title: Clean Architecture
+    domain: dotnet
+    category: skill
+    triggers: [clean architecture, layered architecture, onion architecture, dependency inversion, separate domain from infrastructure]
+    tech_tags: [dotnet, aspnetcore]
+    related: [dotnet.architecture.ddd, dotnet.architecture.result-rop, dotnet.architecture.repository-specification]
+
+  - id: dotnet.architecture.ddd
+    path: skills/dotnet/architecture/ddd.md
+    title: Domain-Driven Design
+    domain: dotnet
+    category: skill
+    triggers: [domain driven design, ddd, aggregate, bounded context, value object, entity modeling, ubiquitous language]
+    tech_tags: [dotnet]
+    related: [dotnet.architecture.clean-architecture, dotnet.architecture.modular-monolith, dotnet.architecture.domain-events-outbox]
+
+  - id: dotnet.architecture.cqrs
+    path: skills/dotnet/architecture/cqrs.md
+    title: CQRS
+    domain: dotnet
+    category: skill
+    triggers: [cqrs, command query separation, mediatr, separate reads and writes]
+    tech_tags: [dotnet, aspnetcore]
+    related: [dotnet.architecture.clean-architecture, dotnet.architecture.result-rop, dotnet.database]
+
+  - id: dotnet.architecture.modular-monolith
+    path: skills/dotnet/architecture/modular-monolith.md
+    title: Modular Monolith
+    domain: dotnet
+    category: skill
+    triggers: [modular monolith, module boundaries, vertical slices, single deployable multiple modules]
+    tech_tags: [dotnet, aspnetcore]
+    related: [dotnet.architecture.ddd, dotnet.architecture.clean-architecture, dotnet.architecture.microservices, dotnet.architecture.domain-events-outbox]
+
+  - id: dotnet.architecture.microservices
+    path: skills/dotnet/architecture/microservices.md
+    title: Microservices
+    domain: dotnet
+    category: skill
+    triggers: [microservices, independent services, service per team, distributed system]
+    tech_tags: [dotnet, aspnetcore, docker]
+    related: [dotnet.architecture.modular-monolith, dotnet.architecture.event-driven, dotnet.messaging, dotnet.docker]
+
+  - id: dotnet.architecture.event-driven
+    path: skills/dotnet/architecture/event-driven.md
+    title: Event-Driven Architecture
+    domain: dotnet
+    category: skill
+    triggers: [event driven, pub sub, event bus, integration events, domain events]
+    tech_tags: [dotnet, messaging]
+    related: [dotnet.architecture.domain-events-outbox, dotnet.messaging, dotnet.architecture.microservices]
+
+  - id: dotnet.architecture.result-rop
+    path: skills/dotnet/architecture/result-rop.md
+    title: Result Pattern / Railway-Oriented Programming
+    domain: dotnet
+    category: skill
+    triggers: [result pattern, railway oriented programming, avoid exceptions for control flow, functional error handling]
+    tech_tags: [dotnet, csharp]
+    related: [dotnet.architecture.clean-architecture, dotnet.csharp, dotnet.api-design]
+
+  - id: dotnet.architecture.repository-specification
+    path: skills/dotnet/architecture/repository-specification.md
+    title: Repository & Specification Patterns
+    domain: dotnet
+    category: skill
+    triggers: [repository pattern, specification pattern, abstract data access, query object]
+    tech_tags: [dotnet, efcore]
+    related: [dotnet.architecture.clean-architecture, dotnet.efcore]
+
+  - id: dotnet.architecture.domain-events-outbox
+    path: skills/dotnet/architecture/domain-events-outbox.md
+    title: Domain Events & Outbox Pattern
+    domain: dotnet
+    category: skill
+    triggers: [domain events, outbox pattern, reliable event publishing, transactional messaging]
+    tech_tags: [dotnet, efcore]
+    requires: [dotnet.efcore]
+    related: [dotnet.architecture.ddd, dotnet.architecture.event-driven, dotnet.messaging]
+
+  - id: dotnet.architecture.background-processing
+    path: skills/dotnet/architecture/background-processing.md
+    title: Background Processing
+    domain: dotnet
+    category: skill
+    triggers: [background service, hosted service, background job, scheduled task, worker]
+    tech_tags: [dotnet, aspnetcore]
+    related: [dotnet.dotnet, dotnet.architecture.domain-events-outbox, dotnet.performance]
+
+  # --- dotnet / core ---
+  - id: dotnet.csharp
+    path: skills/dotnet/csharp/csharp.md
+    title: Modern C#
+    domain: dotnet
+    category: skill
+    triggers: [c# language features, nullable reference types, records, pattern matching, modern c#]
+    tech_tags: [csharp, dotnet8, dotnet9]
+    related: [dotnet.dotnet, dotnet.architecture.result-rop]
+
+  - id: dotnet.dotnet
+    path: skills/dotnet/dotnet.md
+    title: .NET Runtime & Hosting Fundamentals
+    domain: dotnet
+    category: skill
+    triggers: [dependency injection, configuration, options pattern, middleware, logging, opentelemetry, health checks, httpclientfactory, resilience, rate limiting, output caching]
+    tech_tags: [dotnet8, dotnet9, aspnetcore]
+    requires: [dotnet.csharp]
+    related: [dotnet.aspnetcore, dotnet.caching, dotnet.performance, dotnet.architecture.background-processing]
+
+  - id: dotnet.aspnetcore
+    path: skills/dotnet/aspnetcore/aspnetcore.md
+    title: ASP.NET Core API Development
+    domain: dotnet
+    category: skill
+    triggers: [create endpoint, minimal api, web api, controller, rest api, model validation, problemdetails]
+    tech_tags: [aspnetcore, dotnet8, dotnet9]
+    requires: [dotnet.dotnet]
+    related: [dotnet.api-design, dotnet.authentication, dotnet.authorization, dotnet.testing]
+
+  - id: dotnet.efcore
+    path: skills/dotnet/efcore/efcore.md
+    title: Entity Framework Core
+    domain: dotnet
+    category: skill
+    triggers: [entity framework, ef core, dbcontext, migrations, n+1, tracking, no tracking]
+    tech_tags: [efcore, dotnet8, sqlserver, postgresql]
+    requires: [dotnet.csharp]
+    related: [dotnet.database, dotnet.performance, dotnet.architecture.repository-specification]
+
+  - id: dotnet.api-design
+    path: skills/dotnet/api-design/api-design.md
+    title: API Design
+    domain: dotnet
+    category: skill
+    triggers: [api design, rest api, versioning, pagination, idempotency, http status codes, breaking change]
+    tech_tags: [aspnetcore, rest]
+    related: [dotnet.aspnetcore, dotnet.authorization, dotnet.security]
+
+  - id: dotnet.authentication
+    path: skills/dotnet/authentication/authentication.md
+    title: Authentication (JWT, OAuth2, OIDC)
+    domain: dotnet
+    category: skill
+    triggers: [authentication, jwt, oauth2, oidc, login, token validation, identity provider]
+    tech_tags: [aspnetcore, jwt, oauth2, oidc]
+    related: [dotnet.authorization, dotnet.security]
+
+  - id: dotnet.authorization
+    path: skills/dotnet/authorization/authorization.md
+    title: Authorization (Policy & Resource-Based)
+    domain: dotnet
+    category: skill
+    triggers: [authorization, policy based authorization, resource based authorization, roles, claims, permissions]
+    tech_tags: [aspnetcore]
+    related: [dotnet.authentication, dotnet.security, dotnet.api-design]
+
+  - id: dotnet.security
+    path: skills/dotnet/security/security.md
+    title: Application Security (OWASP-Oriented)
+    domain: dotnet
+    category: skill
+    triggers: [security review, owasp, sql injection, xss, csrf, ssrf, secrets, sensitive data, security headers]
+    tech_tags: [aspnetcore, dotnet]
+    related: [dotnet.authentication, dotnet.authorization, dotnet.api-design]
+    severity: blocking
+
+  - id: dotnet.testing
+    path: skills/dotnet/testing/testing.md
+    title: Testing (Unit, Integration, API, Architecture)
+    domain: dotnet
+    category: skill
+    triggers: [write tests, unit test, integration test, api test, testcontainers, architecture test, test data]
+    tech_tags: [xunit, webapplicationfactory, testcontainers, fluentassertions]
+    related: [dotnet.csharp, dotnet.efcore, dotnet.aspnetcore]
+
+  - id: dotnet.database
+    path: skills/dotnet/database/database.md
+    title: Database Design & Operations (Engine-Agnostic)
+    domain: dotnet
+    category: skill
+    triggers: [schema design, normalization, indexing strategy, isolation levels, deadlocks, pagination, bulk operations, backup, restore]
+    tech_tags: [sql, database]
+    related: [dotnet.database.sql-server, dotnet.database.postgresql, dotnet.efcore, dotnet.performance]
+
+  - id: dotnet.database.sql-server
+    path: skills/dotnet/database/sql-server.md
+    title: SQL Server
+    domain: dotnet
+    category: skill
+    triggers: [sql server, mssql, execution plan, clustered index, tsql, deadlock, isolation level sql server]
+    tech_tags: [sqlserver, efcore]
+    requires: [dotnet.database]
+    related: [dotnet.efcore, dotnet.performance]
+
+  - id: dotnet.database.postgresql
+    path: skills/dotnet/database/postgresql.md
+    title: PostgreSQL
+    domain: dotnet
+    category: skill
+    triggers: [postgresql, postgres, pgvector, explain analyze, mvcc, vacuum, postgres isolation level]
+    tech_tags: [postgresql, efcore]
+    requires: [dotnet.database]
+    related: [dotnet.efcore, dotnet.performance, agentic-ai.vector-search]
+
+  - id: dotnet.performance
+    path: skills/dotnet/performance/performance.md
+    title: Performance (Allocations, Async, Scalability)
+    domain: dotnet
+    category: skill
+    triggers: [performance, allocations, garbage collection, async performance, scalability, profiling]
+    tech_tags: [dotnet, aspnetcore]
+    related: [dotnet.caching, dotnet.database, dotnet.dotnet]
+
+  - id: dotnet.caching
+    path: skills/dotnet/caching/caching.md
+    title: Caching (In-Memory, Distributed, Output)
+    domain: dotnet
+    category: skill
+    triggers: [caching, distributed cache, output caching, cache invalidation, memory cache]
+    tech_tags: [aspnetcore, redis]
+    related: [dotnet.performance, dotnet.dotnet]
+
+  - id: dotnet.messaging
+    path: skills/dotnet/messaging/messaging.md
+    title: Messaging (Queues, Brokers, Delivery Guarantees)
+    domain: dotnet
+    category: skill
+    triggers: [message queue, service bus, rabbitmq, kafka, at least once delivery, message broker]
+    tech_tags: [dotnet, rabbitmq, azureservicebus, kafka]
+    related: [dotnet.architecture.event-driven, dotnet.architecture.domain-events-outbox, dotnet.architecture.background-processing]
+
+  - id: dotnet.azure
+    path: skills/dotnet/azure/azure.md
+    title: Azure Deployment Patterns
+    domain: dotnet
+    category: skill
+    triggers: [azure deployment, app service, azure container apps, key vault, managed identity, azure sql]
+    tech_tags: [azure, dotnet]
+    related: [dotnet.docker, dotnet.dotnet]
+
+  - id: dotnet.docker
+    path: skills/dotnet/docker/docker.md
+    title: Docker for .NET
+    domain: dotnet
+    category: skill
+    triggers: [dockerize, dockerfile, multi-stage build, container image, docker compose]
+    tech_tags: [docker, dotnet]
+    related: [dotnet.linux, dotnet.azure]
+
+  - id: dotnet.linux
+    path: skills/dotnet/linux/linux.md
+    title: Linux Hosting for .NET
+    domain: dotnet
+    category: skill
+    triggers: [linux hosting, nginx reverse proxy, systemd service, https configuration, linux deployment]
+    tech_tags: [linux, nginx, systemd, dotnet]
+    related: [dotnet.docker, dotnet.azure]
+
+  - id: dotnet.react
+    path: skills/dotnet/react/react.md
+    title: React for a .NET-Backed Frontend
+    domain: dotnet
+    category: skill
+    triggers: [react component, frontend for this api, state management, react forms, react error handling]
+    tech_tags: [react, typescript]
+    requires: [dotnet.typescript]
+    related: [dotnet.api-design, dotnet.authentication]
+
+  - id: dotnet.typescript
+    path: skills/dotnet/typescript/typescript.md
+    title: TypeScript
+    domain: dotnet
+    category: skill
+    triggers: [typescript, strict typing, type safety, generics typescript]
+    tech_tags: [typescript]
+    related: [dotnet.react, dotnet.api-design]
+
+  - id: dotnet.git
+    path: skills/dotnet/git/git.md
+    title: Git Hygiene
+    domain: dotnet
+    category: skill
+    triggers: [commit message, branch naming, pull request, rebase, merge conflict, git hygiene]
+    tech_tags: [git, github]
+    related: [dotnet.docker]
+
+  - id: dotnet.documentation
+    path: skills/dotnet/documentation/documentation.md
+    title: Documentation Standards
+    domain: dotnet
+    category: skill
+    triggers: [write documentation, adr, api documentation, runbook, readme]
+    tech_tags: [dotnet]
+
+  # --- agentic-ai / fundamentals ---
+  - id: agentic-ai.fundamentals.agent-loops
+    path: skills/agentic-ai/fundamentals/agent-loops.md
+    title: Agent Loops
+    domain: agentic-ai
+    category: skill
+    triggers: [agent loop, tool use loop, react pattern, autonomous agent, think act observe]
+    tech_tags: [dotnet]
+    requires: [dotnet.dotnet]
+    related: [agentic-ai.tool-calling, agentic-ai.context-engineering, agentic-ai.reliability, agentic-ai.fundamentals.planning]
+    optional: [agentic-ai.frameworks.semantic-kernel, agentic-ai.frameworks.microsoft-agent-framework]
+
+  - id: agentic-ai.fundamentals.planning
+    path: skills/agentic-ai/fundamentals/planning.md
+    title: Planning
+    domain: agentic-ai
+    category: skill
+    triggers: [task planning, decompose task, plan and execute, agent planning]
+    tech_tags: [dotnet]
+    related: [agentic-ai.fundamentals.agent-loops, agentic-ai.fundamentals.multi-agent-systems, agentic-ai.evaluation]
+
+  - id: agentic-ai.fundamentals.multi-agent-systems
+    path: skills/agentic-ai/fundamentals/multi-agent-systems.md
+    title: Multi-Agent Systems
+    domain: agentic-ai
+    category: skill
+    triggers: [multi-agent, agent orchestration, agent handoff, supervisor agent, agent-to-agent]
+    tech_tags: [dotnet]
+    related: [agentic-ai.fundamentals.agent-loops, agentic-ai.fundamentals.planning, agentic-ai.observability]
+    optional: [agentic-ai.frameworks.microsoft-agent-framework, agentic-ai.frameworks.semantic-kernel]
+
+  # --- agentic-ai / core ---
+  - id: agentic-ai.tool-calling
+    path: skills/agentic-ai/tool-calling.md
+    title: Tool Calling
+    domain: agentic-ai
+    category: skill
+    triggers: [tool calling, function calling, tool definition, tool schema, agent tools]
+    tech_tags: [dotnet]
+    requires: [dotnet.api-design]
+    related: [agentic-ai.fundamentals.agent-loops, agentic-ai.structured-outputs, agentic-ai.ai-security]
+
+  - id: agentic-ai.structured-outputs
+    path: skills/agentic-ai/structured-outputs.md
+    title: Structured Outputs
+    domain: agentic-ai
+    category: skill
+    triggers: [structured output, json mode, schema constrained generation, typed llm response]
+    tech_tags: [dotnet]
+    related: [agentic-ai.tool-calling, agentic-ai.fundamentals.planning, agentic-ai.evaluation]
+
+  - id: agentic-ai.prompt-engineering
+    path: skills/agentic-ai/prompt-engineering.md
+    title: Prompt Engineering
+    domain: agentic-ai
+    category: skill
+    triggers: [system prompt, prompt design, few shot examples, prompt versioning]
+    tech_tags: [dotnet]
+    related: [agentic-ai.context-engineering, agentic-ai.evaluation, agentic-ai.structured-outputs]
+
+  - id: agentic-ai.context-engineering
+    path: skills/agentic-ai/context-engineering.md
+    title: Context Engineering
+    domain: agentic-ai
+    category: skill
+    triggers: [context window, context management, what to put in context, context pruning, context budget]
+    tech_tags: [dotnet]
+    related: [agentic-ai.prompt-engineering, agentic-ai.memory, agentic-ai.fundamentals.agent-loops, agentic-ai.cost-optimization]
+
+  - id: agentic-ai.memory
+    path: skills/agentic-ai/memory.md
+    title: Memory
+    domain: agentic-ai
+    category: skill
+    triggers: [agent memory, conversation history persistence, long term memory, user preferences memory]
+    tech_tags: [dotnet, efcore]
+    requires: [dotnet.efcore]
+    related: [agentic-ai.context-engineering, agentic-ai.vector-search, dotnet.database]
+
+  - id: agentic-ai.rag
+    path: skills/agentic-ai/rag.md
+    title: RAG (Retrieval-Augmented Generation)
+    domain: agentic-ai
+    category: skill
+    triggers: [rag, retrieval augmented generation, knowledge base q&a, document search with llm, grounded answers]
+    tech_tags: [dotnet, aspnetcore, embeddings, vector-search]
+    requires: [dotnet.api-design, dotnet.efcore]
+    related: [dotnet.database.postgresql, dotnet.security, agentic-ai.evaluation, agentic-ai.observability, agentic-ai.embeddings, agentic-ai.vector-search]
+    optional: [agentic-ai.frameworks.semantic-kernel]
+
+  - id: agentic-ai.embeddings
+    path: skills/agentic-ai/embeddings.md
+    title: Embeddings
+    domain: agentic-ai
+    category: skill
+    triggers: [embeddings, vectorize text, embedding model, chunk and embed]
+    tech_tags: [dotnet]
+    related: [agentic-ai.vector-search, agentic-ai.rag]
+    optional: [agentic-ai.frameworks.openai, agentic-ai.frameworks.azure-openai]
+
+  - id: agentic-ai.vector-search
+    path: skills/agentic-ai/vector-search.md
+    title: Vector Search
+    domain: agentic-ai
+    category: skill
+    triggers: [vector search, similarity search, nearest neighbor search, ivfflat, hnsw]
+    tech_tags: [dotnet, postgresql, pgvector]
+    requires: [agentic-ai.embeddings]
+    related: [agentic-ai.rag, dotnet.database.postgresql]
+
+  - id: agentic-ai.mcp
+    path: skills/agentic-ai/mcp.md
+    title: MCP (Model Context Protocol)
+    domain: agentic-ai
+    category: skill
+    triggers: [mcp, model context protocol, mcp server, mcp tool]
+    tech_tags: [dotnet, mcp]
+    requires: [agentic-ai.tool-calling]
+    related: [agentic-ai.fundamentals.agent-loops, dotnet.api-design]
+
+  - id: agentic-ai.human-in-the-loop
+    path: skills/agentic-ai/human-in-the-loop.md
+    title: Human-in-the-Loop
+    domain: agentic-ai
+    category: skill
+    triggers: [human in the loop, approval workflow, irreversible action confirmation, agent needs approval]
+    tech_tags: [dotnet]
+    related: [agentic-ai.guardrails, agentic-ai.tool-calling, dotnet.architecture.background-processing]
+
+  - id: agentic-ai.evaluation
+    path: skills/agentic-ai/evaluation.md
+    title: Evaluation
+    domain: agentic-ai
+    category: skill
+    triggers: [evaluation harness, eval dataset, llm judge, regression testing prompts, agent testing]
+    tech_tags: [dotnet]
+    related: [dotnet.testing, agentic-ai.prompt-engineering, agentic-ai.guardrails]
+
+  - id: agentic-ai.guardrails
+    path: skills/agentic-ai/guardrails.md
+    title: Guardrails
+    domain: agentic-ai
+    category: skill
+    triggers: [guardrails, content filtering, output validation, input filtering, safety checks]
+    tech_tags: [dotnet]
+    related: [agentic-ai.ai-security, agentic-ai.evaluation, agentic-ai.human-in-the-loop]
+
+  - id: agentic-ai.ai-security
+    path: skills/agentic-ai/ai-security.md
+    title: AI Security (Prompt Injection, Tool Trust, Model Keys)
+    domain: agentic-ai
+    category: skill
+    triggers: [prompt injection, jailbreak, tool output trust, model api key security, agent security review]
+    tech_tags: [dotnet]
+    requires: [dotnet.security]
+    related: [agentic-ai.guardrails, agentic-ai.tool-calling, agentic-ai.human-in-the-loop]
+    severity: blocking
+
+  - id: agentic-ai.reliability
+    path: skills/agentic-ai/reliability.md
+    title: Reliability
+    domain: agentic-ai
+    category: skill
+    triggers: [llm call reliability, retry model call, provider outage, fallback model, timeout llm]
+    tech_tags: [dotnet]
+    requires: [dotnet.dotnet]
+    related: [agentic-ai.fundamentals.agent-loops, agentic-ai.observability, agentic-ai.model-routing]
+
+  - id: agentic-ai.observability
+    path: skills/agentic-ai/observability.md
+    title: Observability (Agentic AI)
+    domain: agentic-ai
+    category: skill
+    triggers: [agent tracing, llm observability, token usage tracking, agent run logging]
+    tech_tags: [dotnet, opentelemetry]
+    requires: [dotnet.dotnet]
+    related: [agentic-ai.cost-optimization, agentic-ai.reliability, agentic-ai.evaluation]
+
+  - id: agentic-ai.cost-optimization
+    path: skills/agentic-ai/cost-optimization.md
+    title: Cost Optimization
+    domain: agentic-ai
+    category: skill
+    triggers: [token cost, reduce llm cost, cost per request, budget agent, expensive prompts]
+    tech_tags: [dotnet]
+    related: [agentic-ai.model-routing, agentic-ai.context-engineering, agentic-ai.observability]
+
+  - id: agentic-ai.model-routing
+    path: skills/agentic-ai/model-routing.md
+    title: Model Routing
+    domain: agentic-ai
+    category: skill
+    triggers: [model routing, choose model per task, fallback model, cheap model for simple tasks, multi-model strategy]
+    tech_tags: [dotnet]
+    related: [agentic-ai.cost-optimization, agentic-ai.reliability, agentic-ai.evaluation]
+    optional: [agentic-ai.frameworks.openai, agentic-ai.frameworks.anthropic, agentic-ai.frameworks.azure-openai, agentic-ai.frameworks.local-models]
+
+  # --- agentic-ai / frameworks (optional, gated by .ai/config.yaml) ---
+  - id: agentic-ai.frameworks.semantic-kernel
+    path: skills/agentic-ai/frameworks/semantic-kernel.md
+    title: Semantic Kernel (Optional Framework)
+    domain: agentic-ai
+    category: skill
+    triggers: [semantic kernel, sk plugin, kernel function]
+    tech_tags: [dotnet, semantic-kernel]
+    requires: [agentic-ai.fundamentals.agent-loops, agentic-ai.tool-calling]
+    related: [agentic-ai.frameworks.microsoft-agent-framework]
+
+  - id: agentic-ai.frameworks.microsoft-agent-framework
+    path: skills/agentic-ai/frameworks/microsoft-agent-framework.md
+    title: Microsoft Agent Framework (Optional Framework)
+    domain: agentic-ai
+    category: skill
+    triggers: [microsoft agent framework, ms agent framework]
+    tech_tags: [dotnet]
+    requires: [agentic-ai.fundamentals.agent-loops, agentic-ai.fundamentals.multi-agent-systems]
+    related: [agentic-ai.frameworks.semantic-kernel]
+
+  - id: agentic-ai.frameworks.openai
+    path: skills/agentic-ai/frameworks/openai.md
+    title: OpenAI Provider (Optional)
+    domain: agentic-ai
+    category: skill
+    triggers: [openai api, gpt model, openai sdk dotnet]
+    tech_tags: [dotnet, openai]
+    requires: [agentic-ai.fundamentals.agent-loops]
+    related: [agentic-ai.frameworks.azure-openai, agentic-ai.model-routing]
+
+  - id: agentic-ai.frameworks.anthropic
+    path: skills/agentic-ai/frameworks/anthropic.md
+    title: Anthropic Provider (Optional)
+    domain: agentic-ai
+    category: skill
+    triggers: [anthropic api, claude model, claude api dotnet]
+    tech_tags: [dotnet, anthropic]
+    requires: [agentic-ai.fundamentals.agent-loops]
+    related: [agentic-ai.frameworks.azure-openai, agentic-ai.model-routing]
+
+  - id: agentic-ai.frameworks.azure-openai
+    path: skills/agentic-ai/frameworks/azure-openai.md
+    title: Azure OpenAI Provider (Optional)
+    domain: agentic-ai
+    category: skill
+    triggers: [azure openai, azure ai foundry, managed identity openai]
+    tech_tags: [dotnet, azure, azureopenai]
+    requires: [agentic-ai.fundamentals.agent-loops, dotnet.azure]
+    related: [agentic-ai.frameworks.openai, agentic-ai.model-routing]
+
+  - id: agentic-ai.frameworks.local-models
+    path: skills/agentic-ai/frameworks/local-models.md
+    title: Local / Self-Hosted Models (Optional)
+    domain: agentic-ai
+    category: skill
+    triggers: [local model, self hosted llm, on premises model, ollama, onnx runtime]
+    tech_tags: [dotnet, onnx, ollama]
+    requires: [agentic-ai.fundamentals.agent-loops]
+    related: [dotnet.security, agentic-ai.model-routing]

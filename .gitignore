@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Retrieval layer (Batch J) — local build artifacts, never committed
+retrieval/**/node_modules/
+retrieval/**/__pycache__/
+retrieval/**/*.pyc
+retrieval/**/.venv/
+retrieval/**/*.db
+retrieval/**/*.sqlite
+retrieval/**/chroma/
+retrieval/**/.env
+
+# Local schema/lint tooling
+node_modules/

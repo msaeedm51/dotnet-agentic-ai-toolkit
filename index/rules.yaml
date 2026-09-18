@@ -1,0 +1,108 @@
+# Routing manifest for rules/**. Mirrors each rule file's frontmatter —
+# see _meta/frontmatter-schema.md and schemas/index-entry.schema.json.
+# See RULES.md for the precedence system these rules sit within.
+
+rules:
+  - id: rule.anti-hallucination
+    path: rules/anti-hallucination.md
+    title: Anti-Hallucination Rules
+    category: rule
+    triggers: [verify before referencing, does this api exist, invented method, made up class]
+    tech_tags: []
+    severity: blocking
+
+  - id: rule.definition-of-done
+    path: rules/definition-of-done.md
+    title: Definition of Done
+    category: rule
+    triggers: [is this done, definition of done, completion checklist, ready to merge]
+    tech_tags: []
+    severity: blocking
+
+  - id: rule.general
+    path: rules/general.md
+    title: General Rules
+    category: rule
+    triggers: [general rules, cross cutting rules, smallest change, avoid refactoring]
+    tech_tags: []
+    severity: blocking
+
+  - id: rule.csharp
+    path: rules/csharp.md
+    title: C# Rules
+    category: rule
+    triggers: [c# rules, nullable reference types, async rules, cancellation token rule]
+    tech_tags: [csharp]
+    severity: blocking
+
+  - id: rule.dotnet
+    path: rules/dotnet.md
+    title: .NET Runtime Rules
+    category: rule
+    triggers: [dotnet rules, di lifetime rule, httpclientfactory rule, configuration rule]
+    tech_tags: [dotnet, aspnetcore]
+    severity: blocking
+
+  - id: rule.architecture
+    path: rules/architecture.md
+    title: Architecture Rules
+    category: rule
+    triggers: [architecture rules, dependency direction rule, simplest architecture, module boundary rule]
+    tech_tags: [dotnet]
+    severity: blocking
+
+  - id: rule.api
+    path: rules/api.md
+    title: API Rules
+    category: rule
+    triggers: [api rules, status code rules, dto rule, breaking change rule]
+    tech_tags: [aspnetcore, rest]
+    severity: blocking
+
+  - id: rule.database
+    path: rules/database.md
+    title: Database Rules
+    category: rule
+    triggers: [database rules, migration rule, index rule, query rule]
+    tech_tags: [sql, efcore, sqlserver, postgresql]
+    severity: blocking
+
+  - id: rule.security
+    path: rules/security.md
+    title: Security Rules
+    category: rule
+    triggers: [security rules, owasp rules, secrets rule, least privilege rule]
+    tech_tags: [aspnetcore, dotnet]
+    severity: blocking
+
+  - id: rule.testing
+    path: rules/testing.md
+    title: Testing Rules
+    category: rule
+    triggers: [testing rules, test coverage rule, negative test rule, mocking rule]
+    tech_tags: [xunit, testcontainers]
+    severity: blocking
+
+  - id: rule.performance
+    path: rules/performance.md
+    title: Performance Rules
+    category: rule
+    triggers: [performance rules, allocation rule, async rule performance, caching rule]
+    tech_tags: [dotnet, aspnetcore]
+    severity: recommended
+
+  - id: rule.git
+    path: rules/git.md
+    title: Git Rules
+    category: rule
+    triggers: [git rules, commit message rule, branch naming rule, force push rule]
+    tech_tags: [git, github]
+    severity: recommended
+
+  - id: rule.agentic-ai
+    path: rules/agentic-ai.md
+    title: Agentic AI Rules
+    category: rule
+    triggers: [agentic ai rules, prompt injection rule, agent loop bound rule, tool authorization rule]
+    tech_tags: [dotnet]
+    severity: blocking

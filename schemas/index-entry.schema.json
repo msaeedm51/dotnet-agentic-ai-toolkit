@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dotnet-ai-toolkit/schemas/index-entry.schema.json",
+  "title": "Index Entry",
+  "description": "One entry in index/skills.yaml, index/agents.yaml, index/workflows.yaml, or index/rules.yaml. Mirrors the corresponding file's frontmatter so it can be resolved without opening the file.",
+  "type": "object",
+  "required": ["id", "path", "title", "triggers"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string" },
+    "path": {
+      "type": "string",
+      "description": "Repo-relative path to the source file, e.g. skills/agentic-ai/rag.md"
+    },
+    "title": { "type": "string" },
+    "domain": { "enum": ["dotnet", "agentic-ai", "both"] },
+    "category": { "enum": ["skill", "agent", "rule", "workflow"] },
+    "triggers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "tech_tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "requires": { "type": "array", "items": { "type": "string" }, "default": [] },
+    "related": { "type": "array", "items": { "type": "string" }, "default": [] },
+    "optional": { "type": "array", "items": { "type": "string" }, "default": [] },
+    "severity": { "enum": ["blocking", "recommended"] }
+  }
+}

@@ -1,0 +1,80 @@
+# Routing manifest for agents/**. Mirrors each agent file's frontmatter.
+# See _meta/frontmatter-schema.md and schemas/index-entry.schema.json.
+
+agents:
+  - id: agent.architect
+    path: agents/architect.md
+    title: Architect Agent
+    domain: both
+    category: agent
+    triggers: [design the architecture, propose an architecture, architecture decision, adr, evaluate trade-offs, choose a pattern]
+
+  - id: agent.dotnet-developer
+    path: agents/dotnet-developer.md
+    title: .NET Developer Agent
+    domain: dotnet
+    category: agent
+    triggers: [implement, add a feature, build an endpoint, fix a bug, write the code]
+
+  - id: agent.ai-engineer
+    path: agents/ai-engineer.md
+    title: AI Engineer Agent
+    domain: agentic-ai
+    category: agent
+    triggers: [build an agent, implement rag, tool calling, agent loop, multi-agent, prompt pipeline]
+
+  - id: agent.code-reviewer
+    path: agents/code-reviewer.md
+    title: Code Reviewer Agent
+    domain: both
+    category: agent
+    triggers: [review this pr, review my code, code review]
+
+  - id: agent.test-engineer
+    path: agents/test-engineer.md
+    title: Test Engineer Agent
+    domain: both
+    category: agent
+    triggers: [write tests, add test coverage, integration test, evaluation harness, test this]
+
+  - id: agent.security-reviewer
+    path: agents/security-reviewer.md
+    title: Security Reviewer Agent
+    domain: both
+    category: agent
+    triggers: [security review, check for vulnerabilities, is this secure, authz review, prompt injection review]
+
+  - id: agent.database-engineer
+    path: agents/database-engineer.md
+    title: Database Engineer Agent
+    domain: both
+    category: agent
+    triggers: [design the schema, write a migration, optimize this query, database change]
+
+  - id: agent.api-engineer
+    path: agents/api-engineer.md
+    title: API Engineer Agent
+    domain: both
+    category: agent
+    triggers: [design the api, create an endpoint, api contract, versioning]
+
+  - id: agent.devops-engineer
+    path: agents/devops-engineer.md
+    title: DevOps Engineer Agent
+    domain: both
+    category: agent
+    triggers: [dockerize, set up ci/cd, deploy this, configure the pipeline, deployment]
+
+  - id: agent.performance-engineer
+    path: agents/performance-engineer.md
+    title: Performance Engineer Agent
+    domain: both
+    category: agent
+    triggers: [this is slow, optimize performance, reduce latency, reduce cost, why is this slow]
+
+  - id: agent.documentation-engineer
+    path: agents/documentation-engineer.md
+    title: Documentation Engineer Agent
+    domain: both
+    category: agent
+    triggers: [write documentation, update the readme, write an adr, write a runbook]

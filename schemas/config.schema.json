@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dotnet-ai-toolkit/schemas/config.schema.json",
+  "title": ".ai/config.yaml",
+  "description": "Project-owned configuration read by an AI assistant to determine which skills/rules from the toolkit apply to this specific project. Lives at .ai/config.yaml in the consuming project, outside the toolkit submodule.",
+  "type": "object",
+  "required": ["project"],
+  "additionalProperties": false,
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["name", "domains"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "description": "Free-text project archetype, e.g. 'internal-api', 'saas-backend', 'support-agent'"
+        },
+        "domains": {
+          "type": "array",
+          "items": { "enum": ["dotnet", "agentic-ai"] },
+          "minItems": 1,
+          "description": "Which knowledge tracks apply. Most non-AI services list only [\"dotnet\"]."
+        },
+        "architecture": {
+          "type": "string",
+          "description": "e.g. 'clean-architecture', 'modular-monolith', 'vertical-slice', 'microservices'. The AI must confirm this against the actual codebase before relying on it (AGENTS.md workflows/project-discovery.md) rather than assuming it stayed accurate."
+        }
+      }
+    },
+    "backend": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "framework": { "type": "string", "description": "e.g. 'aspnetcore', 'minimal-api'" },
+        "dotnet_version": { "type": "string" },
+        "database": { "type": "string", "description": "e.g. 'sqlserver', 'postgresql'" },
+        "orm": { "type": "string", "description": "e.g. 'efcore', 'dapper', 'none'" }
+      }
+    },
+    "frontend": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "framework": { "type": "string", "description": "e.g. 'react', 'none'" },
+        "language": { "type": "string", "description": "e.g. 'typescript'" }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "platform": { "type": "string", "description": "e.g. 'azure', 'linux-docker', 'kubernetes'" },
+        "ci": { "type": "string", "description": "e.g. 'github-actions'" }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "description": "Only relevant when project.domains includes 'agentic-ai'.",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "model_providers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "e.g. ['anthropic', 'azure-openai'] — drives which skills/agentic-ai/frameworks/* entries are relevant."
+        },
+        "frameworks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "e.g. ['semantic-kernel'] — gates 'optional' skill resolution. Empty means framework-neutral / hand-rolled."
+        },
+        "patterns": {
+          "type": "array",
+          "items": { "enum": ["rag", "multi-agent", "tool-use", "single-agent", "none"] }
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "strict_architecture": { "type": "boolean", "default": true },
+        "require_tests": { "type": "boolean", "default": true },
+        "require_security_review": { "type": "boolean", "default": true }
+      }
+    }
+  }
+}
