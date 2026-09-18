@@ -6,6 +6,47 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
 
 ## [Unreleased]
 
+### Batch J — Retrieval Layer (Optional)
+- `retrieval/index_store.py`: SQLite-backed vector storage with
+  brute-force cosine similarity search in Python (no vector-database
+  dependency — the ~100-file corpus makes this fast enough, verified with
+  a unit test covering upsert, cluster search, category/domain filtering,
+  and update-in-place).
+- `retrieval/build_index.py`: walks `agents/`, `rules/`, `workflows/`,
+  `skills/**` and embeds each file via a pluggable provider. Verified
+  against the real repo: collects exactly 94 chunks (11 agents, 13 rules,
+  12 workflows, 58 skills), correctly captures `domain` for skills and
+  leaves it `NULL` for agents/rules/workflows (agents use a `domains`
+  list, not a single `domain` string — `index_store.search()` treats
+  `NULL` as "matches every domain filter" rather than excluding it, since
+  a domain-filtered search should still surface a relevant agent/rule).
+- `retrieval/providers/`: `openai_provider.py`, `azure_openai_provider.py`
+  (API-key auth by default; docstring notes the managed-identity
+  alternative per `dotnet.azure`), `local_provider.py`
+  (`sentence-transformers`, no data leaves the machine) — each behind the
+  same `EmbeddingProvider` protocol, resolved only through
+  `providers.get_provider(name)`; no provider SDK is imported directly by
+  `index_store.py`/`build_index.py`/the MCP server.
+- `retrieval/mcp-server/server.py`: exposes `search_toolkit(query, top_k,
+  category?, domain?)` as an MCP tool via `FastMCP` (pinned to `mcp<2` —
+  the SDK's `FastMCP` was renamed to `MCPServer` with a changed API in
+  `mcp` 2.x during this build; pinned for stability rather than chasing a
+  just-released breaking change). Verified end-to-end against real repo
+  content with a fake deterministic embedding provider (no API key/model
+  download needed for the test): querying "how do I bound an agent loop
+  with a cost limit" correctly ranks `agentic-ai.fundamentals.agent-loops`
+  first.
+- `retrieval/query.py`: CLI to test the index without an MCP client.
+- `retrieval/README.md`: the 3-tier retrieval strategy (keyword index /
+  platform-native RAG / this folder), setup, and cost/privacy notes.
+  `adapters/claude.md`'s Retrieval section gained a concrete `.mcp.json`
+  example wiring this server in.
+- All Python files verified with `py_compile`; every API used
+  (`openai.OpenAI`/`AzureOpenAI`/`embeddings.create`,
+  `mcp.server.fastmcp.FastMCP`) was checked against the actually-installed
+  SDK in this environment rather than assumed from memory
+  (`rules/anti-hallucination.md`).
+
 ### Batch I — Consistency Review
 - Ran an automated structural audit across all 94 skill/agent/rule/
   workflow content files: 0 broken `requires`/`related`/`optional`/
@@ -222,5 +263,7 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
   `templates/`, `adapters/`, `examples/`, `scripts/`, `retrieval/`,
   `skills/dotnet/*`, `skills/agentic-ai/*`.
 
-### Pending
-- Batch J: `retrieval/` (optional semantic search / MCP layer)
+### Batch A completion note
+All 10 batches from the original implementation plan (Batch A through
+Batch J) are now complete. Nothing is pending from that plan; future
+changes are ordinary contributions per `CONTRIBUTING.md`.

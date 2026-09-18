@@ -63,10 +63,33 @@ different), keep that as a thin pointer into `skills/**`, not a duplicate.
 ## Retrieval
 
 Tier 1 (`retrieval/README.md`) applies directly — Claude Code reads
-`index/*.yaml` and the resolved skill files via its filesystem tools. If
-`retrieval/mcp-server` (Batch J) is configured as an MCP server in Claude
-Code's settings, prefer it for semantic search over a large corpus;
-otherwise the keyword index is sufficient and requires no setup.
+`index/*.yaml` and the resolved skill files via its filesystem tools. This
+requires no setup and is the default.
+
+Tier 3 (semantic search) is optional. After running
+`retrieval/build_index.py` (see `retrieval/README.md`), add the server to
+Claude Code's MCP configuration (`.mcp.json` at the project root, or via
+`claude mcp add`):
+
+```json
+{
+  "mcpServers": {
+    "dotnet-ai-toolkit-retrieval": {
+      "command": "python",
+      "args": [".ai/toolkit/retrieval/mcp-server/server.py"],
+      "env": {
+        "RETRIEVAL_PROVIDER": "local",
+        "RETRIEVAL_DB": ".ai/toolkit/retrieval/.index/toolkit.db"
+      }
+    }
+  }
+}
+```
+
+`RETRIEVAL_PROVIDER` must match whatever provider built the index. Once
+connected, prefer the `search_toolkit` tool over guessing when the
+keyword index doesn't surface an obviously relevant file — it never
+replaces reading the resolved file's full content, only helps find it.
 
 ## Project overrides
 

@@ -83,19 +83,19 @@ my-project/
 
 ```bash
 # from your project root
-./path/to/dotnet-ai-toolkit/scripts/install.sh
+./path/to/dotnet-agentic-ai-toolkit/scripts/install.sh --adapter claude
 ```
 
 The install script adds the toolkit as a submodule under `.ai/toolkit`, copies a
 starter `config.yaml` into `.ai/`, and generates the adapter entry file(s) for
-whichever assistant(s) you name. See `scripts/install.sh` and `adapters/` for
-details (added in a later batch).
+whichever assistant(s) you name. See `scripts/install.sh` (or `.ps1`) and
+`adapters/` for details.
 
 ## Status
 
-This repository is under active construction, built in reviewed batches. See
-`CHANGELOG.md` for what exists so far. Nothing here should be treated as final
-until the consistency review pass (tracked in `CHANGELOG.md`) is complete.
+The full initial build (all 10 batches in `CHANGELOG.md`, including the
+consistency review and the optional `retrieval/` layer) is complete. Future
+changes are ordinary contributions — see `CONTRIBUTING.md`.
 
 ## License
 
