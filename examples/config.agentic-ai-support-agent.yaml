@@ -1,0 +1,32 @@
+# Example .ai/config.yaml for a customer-support RAG agent — demonstrates
+# the `ai:` block that gates the agentic-ai track's optional/related skill
+# resolution (AGENTS.md §4). Both tracks are active here: the agent itself
+# is agentic-ai, but it's still a normal ASP.NET Core service underneath.
+# Validated against schemas/config.schema.json.
+
+project:
+  name: contoso-support-agent
+  type: support-agent
+  domains: [dotnet, agentic-ai]
+  architecture: clean-architecture
+
+backend:
+  framework: aspnetcore
+  dotnet_version: "8.0"
+  database: postgresql   # also hosts pgvector for retrieval
+  orm: efcore
+
+deployment:
+  platform: azure
+  ci: github-actions
+
+ai:
+  enabled: true
+  model_providers: [anthropic, azure-openai]
+  frameworks: []          # framework-neutral: hand-rolled agent loop, no Semantic Kernel/MS Agent Framework
+  patterns: [rag, tool-use]
+
+rules:
+  strict_architecture: true
+  require_tests: true
+  require_security_review: true

@@ -6,6 +6,84 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
 
 ## [Unreleased]
 
+### Batch H — Examples, Templates, Install Scripts
+- `examples/`: 4 filled `.ai/config.yaml` samples, validated against
+  `schemas/config.schema.json` — `config.clean-architecture-api.yaml`,
+  `config.modular-monolith.yaml`, `config.minimal-api.yaml`, and
+  `config.agentic-ai-support-agent.yaml` (added beyond the original
+  3-sample plan specifically to demonstrate the `ai:` block that gates
+  agentic-AI `optional` skill resolution).
+- `templates/`: 4 project bootstrap scaffolds (`dotnet-api`,
+  `clean-architecture`, `modular-monolith`, `library`), each with a
+  `README.md` describing the folder layout (cross-referencing the
+  relevant `skills/dotnet/` files) plus `.editorconfig`,
+  `Directory.Build.props`, `global.json`, `.gitignore` — scoped to
+  structure + key config, not full runnable apps, per the Batch A design
+  decision. Plus a root `templates/README.md` explaining that decision
+  and why the four config files are intentionally duplicated across
+  templates (each is meant to be copied out as a standalone unit).
+- `scripts/install.sh` and `install.ps1`: install the toolkit into a
+  consuming project as a git submodule (default) or a plain copy
+  (`--copy`/`-Copy`, also the automatic fallback when the target isn't a
+  git repo), seed `.ai/config.yaml` if none exists, and optionally
+  generate an adapter entry-point file (`--adapter claude|cursor|windsurf|copilot`)
+  — matching each adapter's Setup section from Batch G exactly, since both
+  scripts and the adapter docs share the same entry-point content.
+
+### Batch G — Adapters
+- `adapters/`: 7 files — `claude`, `cursor`, `windsurf`, `copilot`,
+  `chatgpt`, `gemini`, `generic`. Each explains only the wiring (entry-
+  point file/convention, how agents map, which retrieval tier applies,
+  how project overrides reach the platform) — none restate engineering
+  knowledge from `AGENTS.md`/`skills/`/`rules/`/`workflows/`.
+- Design notes:
+  - Adapters are grouped by actual capability, not by vendor identity:
+    `claude`/`cursor`/`windsurf` are near-identical (full filesystem
+    access, Tier 1 retrieval) and mostly differ in which convention file
+    the platform reads automatically; `copilot` branches internally
+    between its file-access agent mode and its no-file-access completion
+    mode; `chatgpt`/`gemini` branch between a native-knowledge mode
+    (Custom GPT / Gem — Tier 2) and a filesystem-access mode where one
+    exists (Gemini Code Assist/CLI) versus plain chat with no access at
+    all.
+  - `adapters/generic.md` is written as a decision procedure (determine
+    capability → pick a tier → wire the entry point) rather than a fixed
+    template, and doubles as the instructions for writing a new dedicated
+    adapter for a future platform.
+  - Every adapter's entry-point content is near-identical by design (same
+    four sentences pointing at `AGENTS.md`, `RULES.md`, `.ai/config.yaml`,
+    and `index/*.yaml`) — the adapters differ in *where* that content
+    goes and *how retrieval works after that*, not in what it says.
+
+### Batch F — Prompts
+- `prompts/`: 19 files across all 9 categories — `architecture/`
+  (architecture-analysis, codebase-exploration), `coding/`
+  (feature-implementation, refactoring, api-design,
+  deployment-readiness), `testing/` (test-generation), `review/`
+  (code-review, performance-review), `debugging/` (bug-investigation,
+  incident-investigation), `database/` (database-optimization,
+  migration), `security/` (security-review), `documentation/`
+  (documentation), `agentic-ai/` (agent-feature-implementation,
+  rag-implementation, agent-evaluation, agent-security-review). Each
+  follows `_meta/prompt-template.md` and is written for "the AI
+  assistant" — LLM-agnostic — with every prompt body pointing back into
+  the corresponding `workflows/*.md` so the prompt and the process it
+  invokes can never drift apart.
+- Design note: no `index/prompts.yaml` was added. Unlike skills/agents/
+  rules/workflows, prompts aren't meant to be auto-resolved by keyword
+  matching mid-task — they're explicit, named templates a user or
+  workflow step invokes directly by category/name. `prompt-template.md`'s
+  frontmatter reflects this (`related_skills`/`related_agents`, no
+  `triggers` field), which is a deliberate deviation from the other
+  content types' frontmatter, not an oversight.
+- Section 26 of the original spec listed 15 prompt categories
+  (architecture analysis, codebase exploration, feature implementation,
+  bug investigation, code review, security review, performance review,
+  database optimization, API design, test generation, refactoring,
+  migration, documentation, deployment, incident investigation) — all 15
+  are covered, several sharing a folder where they're closely related
+  (e.g. `database-optimization` + `migration` both live in `database/`).
+
 ### Batch E — Workflows
 - `workflows/`: 12 files — `project-discovery`, `new-feature`, `bug-fix`
   (includes systematic debugging), `refactoring`, `api-development`,
@@ -109,9 +187,6 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
   `skills/dotnet/*`, `skills/agentic-ai/*`.
 
 ### Pending
-- Batch F: `prompts/**` content
-- Batch G: `adapters/*.md`
-- Batch H: `examples/`, `templates/**`, `scripts/install.*`
 - Batch I: consistency review (broken links, duplicate/conflicting rules,
   index completeness, terminology pass)
 - Batch J: `retrieval/` (optional semantic search / MCP layer)

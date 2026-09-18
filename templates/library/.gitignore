@@ -1,0 +1,27 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+## Packaging output
+*.nupkg
+*.snupkg
+
+## Test results
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+
+## Secrets — never commit
+*.env
+secrets.json
+
+## OS
+.DS_Store
+Thumbs.db
