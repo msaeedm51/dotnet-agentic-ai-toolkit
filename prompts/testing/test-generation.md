@@ -25,7 +25,7 @@ unit, integration, or API test is appropriate — `dotnet.testing`).
 
 ## Prompt
 
-```
+```text
 Write tests for: [TARGET], following dotnet.testing and rules/testing.md.
 
 1. Classify the right test level: unit (pure logic, no I/O), integration

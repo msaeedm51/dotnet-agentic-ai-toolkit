@@ -24,7 +24,7 @@ never do), and any production issue that motivated adding a new case.
 
 ## Prompt
 
-```
+```text
 Build an evaluation suite for [AGENT/FEATURE], following
 agentic-ai.evaluation.
 

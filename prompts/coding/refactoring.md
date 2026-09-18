@@ -23,7 +23,7 @@ The target code and its current test coverage.
 
 ## Prompt
 
-```
+```text
 Refactor [TARGET], following workflows/refactoring.md:
 
 1. Identify current behavior and every caller of this code.

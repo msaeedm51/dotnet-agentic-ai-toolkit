@@ -25,7 +25,7 @@ The change being deployed, and the target platform
 
 ## Prompt
 
-```
+```text
 Assess deployment readiness for: [CHANGE].
 
 1. Identify every new/changed configuration value and confirm it's set

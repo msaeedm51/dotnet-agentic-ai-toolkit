@@ -25,7 +25,7 @@ The diff/design under review, and whether it's `dotnet` track,
 
 ## Prompt
 
-```
+```text
 Perform a security review of [DIFF/DESIGN], following dotnet.security
 (and agentic-ai.ai-security + rules/agentic-ai.md if this touches the
 agentic-AI track).

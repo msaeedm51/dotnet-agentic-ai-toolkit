@@ -24,7 +24,7 @@ plan.
 
 ## Prompt
 
-```
+```text
 Review [DIFF] for performance risk, per dotnet.performance and
 rules/performance.md.
 

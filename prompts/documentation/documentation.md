@@ -24,7 +24,7 @@ operator, external API consumer), and the current code to verify against.
 
 ## Prompt
 
-```
+```text
 Produce documentation for: [SUBJECT], following dotnet.documentation.
 
 1. Identify the audience and purpose (setup guide, API reference, ADR,

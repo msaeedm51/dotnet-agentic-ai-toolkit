@@ -23,7 +23,7 @@ logs/metrics/deployment history if available.
 
 ## Prompt
 
-```
+```text
 Investigate this production incident: [DESCRIPTION], following
 workflows/production-incident.md.
 

@@ -25,7 +25,7 @@ unavailable — `AGENTS.md` §2).
 
 ## Prompt
 
-```
+```text
 Explore this codebase and produce a Project Understanding, following
 workflows/project-discovery.md:
 

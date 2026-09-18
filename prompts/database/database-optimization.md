@@ -24,7 +24,7 @@ output.
 
 ## Prompt
 
-```
+```text
 Optimize this query: [QUERY], following dotnet.database and the
 engine-specific skill (dotnet.database.sql-server or .postgresql).
 

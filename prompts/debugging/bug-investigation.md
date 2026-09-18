@@ -22,7 +22,7 @@ The symptom as reported, and reproduction steps or logs if available.
 
 ## Prompt
 
-```
+```text
 Investigate and fix: [SYMPTOM], following workflows/bug-fix.md.
 
 1. Restate the symptom precisely (expected vs. actual).

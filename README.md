@@ -12,7 +12,7 @@ instead of one giant system prompt.
 
 ## Two knowledge domains
 
-```
+```text
                     ┌──────────────────────┐
                     │  .NET AI Engineering │
                     │        Toolkit       │
@@ -69,7 +69,7 @@ condensed version is in `CONTRIBUTING.md`.
 This toolkit is consumed, not copied line-by-line into your project. Recommended
 layout inside a consuming repository:
 
-```
+```text
 my-project/
 ├── .ai/
 │   ├── toolkit/           ← this repo, as a git submodule (read-only, versioned)

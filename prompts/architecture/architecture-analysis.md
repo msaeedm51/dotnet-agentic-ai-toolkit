@@ -25,7 +25,7 @@ audit — the actual codebase (or `workflows/project-discovery.md` output).
 
 ## Prompt
 
-```
+```text
 Analyze the architecture of [SYSTEM/PROPOSAL]. Follow
 workflows/architecture-decision.md.
 

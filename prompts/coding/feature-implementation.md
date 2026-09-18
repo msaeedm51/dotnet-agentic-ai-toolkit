@@ -24,7 +24,7 @@ filesystem access to produce one.
 
 ## Prompt
 
-```
+```text
 Implement: [REQUIREMENT].
 
 Follow workflows/new-feature.md:

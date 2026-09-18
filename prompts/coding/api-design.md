@@ -23,7 +23,7 @@ The resource(s) and operations needed, and the existing API's conventions
 
 ## Prompt
 
-```
+```text
 Design the API for: [REQUIREMENT], following workflows/api-development.md
 and dotnet.api-design.
 

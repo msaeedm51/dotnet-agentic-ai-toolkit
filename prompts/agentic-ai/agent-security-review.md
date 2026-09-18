@@ -26,7 +26,7 @@ actions it can take.
 
 ## Prompt
 
-```
+```text
 Review [AGENT/FEATURE] for AI-specific security risk, following
 agentic-ai.ai-security and rules/agentic-ai.md.
 

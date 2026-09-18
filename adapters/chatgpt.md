@@ -11,7 +11,7 @@ real filesystem access (Tier 1). This adapter covers all three.
 Create a Custom GPT ("Explore GPTs" → "Create") with:
 
 - **Instructions** (the GPT's system prompt):
-  ```
+  ```text
   You are a .NET/agentic-AI engineering assistant using the attached
   .NET AI Engineering Toolkit knowledge files. Before answering a
   non-trivial engineering question: consult AGENTS.md for operating

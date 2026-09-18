@@ -6,6 +6,42 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
 
 ## [Unreleased]
 
+### Batch I — Consistency Review
+- Ran an automated structural audit across all 94 skill/agent/rule/
+  workflow content files: 0 broken `requires`/`related`/`optional`/
+  `prerequisites`/`escalates_to`/etc. references, 0 `index/*.yaml`
+  mismatches (every content file indexed, every index entry backed by a
+  real file with a resolvable path), 0 vendor-specific imperative
+  language (`Claude must`, `GPT should`, etc.) in `skills/`, `rules/`,
+  `agents/`, `workflows/`, or `prompts/`.
+- Found and closed a real gap: `.github/workflows/` was an empty stub
+  despite `CONTRIBUTING.md`/`README.md` promising CI there since Batch A.
+  Added:
+  - `scripts/validate.py` — the actual audit script above, now a
+    reusable/CI-runnable asset instead of a one-off check.
+  - `.github/workflows/validate-schema.yml` — runs `validate.py` on every
+    push/PR.
+  - `.github/workflows/lint.yml` + `.markdownlint.json` + `.yamllint.yml`
+    — markdown/YAML linting, verified against the actual repo content
+    (not just written and assumed to pass).
+  - `.github/ISSUE_TEMPLATE/bug_report.md`, `new_skill.md`, `config.yml`,
+    and `.github/PULL_REQUEST_TEMPLATE.md`.
+- Fixed real issues the lint run surfaced: 28 fenced code blocks missing
+  a language tag (`prompts/**`, `README.md`, `skills/dotnet/git/git.md`,
+  `templates/**/README.md`) now tagged `text`; one trailing-whitespace
+  line in `skills/agentic-ai/observability.md`.
+- Deliberately disabled MD022/MD031/MD032/MD060 in `.markdownlint.json` —
+  documented in `CONTRIBUTING.md` — because every skill/agent/rule/
+  workflow file consistently uses a compact "heading directly followed by
+  content" style, which is valid CommonMark and renders correctly on
+  GitHub; those rules enforce a different style preference, not a
+  correctness issue. MD003 and MD020 are disabled because they false-
+  positive on this repo's content specifically (`_meta/*.md`'s
+  HTML-comment-before-frontmatter header, and headings ending in "C#").
+- Terminology spot-check: `agentic-AI` hyphenation/casing is consistent
+  across all 39 files that use the term; no stray vendor-authorship
+  language found in any newly-added file.
+
 ### Batch H — Examples, Templates, Install Scripts
 - `examples/`: 4 filled `.ai/config.yaml` samples, validated against
   `schemas/config.schema.json` — `config.clean-architecture-api.yaml`,
@@ -187,9 +223,4 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
   `skills/dotnet/*`, `skills/agentic-ai/*`.
 
 ### Pending
-- Batch I: consistency review (broken links, duplicate/conflicting rules,
-  index completeness, terminology pass)
 - Batch J: `retrieval/` (optional semantic search / MCP layer)
-
-Nothing in this repository should be treated as complete or authoritative
-until the Batch I consistency review lands.

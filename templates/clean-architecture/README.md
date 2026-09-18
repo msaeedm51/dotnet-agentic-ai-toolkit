@@ -7,7 +7,7 @@ real business invariants (see that skill's Anti-Patterns section).
 
 ## Structure
 
-```
+```text
 src/
 ├── Domain/                  # Entities, value objects, domain services.
 │   │                          No project references. See dotnet.architecture.ddd

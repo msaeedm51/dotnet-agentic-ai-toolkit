@@ -25,7 +25,7 @@ citations, and the authorization model (who can see what content).
 
 ## Prompt
 
-```
+```text
 Implement RAG over [KNOWLEDGE SOURCE], following agentic-ai.rag,
 agentic-ai.embeddings, and agentic-ai.vector-search.
 

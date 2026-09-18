@@ -9,7 +9,7 @@ accretion.
 
 ## Structure
 
-```
+```text
 src/
 └── Api/
     ├── Features/

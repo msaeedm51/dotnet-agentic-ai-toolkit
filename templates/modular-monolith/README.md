@@ -7,7 +7,7 @@ before building this out.
 
 ## Structure
 
-```
+```text
 src/
 ├── Host/                       # Composition root: Program.cs wires every
 │                                  module's DI registrations together and

@@ -22,7 +22,7 @@ The diff/PR to review, and the surrounding code's existing conventions.
 
 ## Prompt
 
-```
+```text
 Review [DIFF/PR], following workflows/code-review.md.
 
 Cover: correctness (including edge and failure cases), architecture fit

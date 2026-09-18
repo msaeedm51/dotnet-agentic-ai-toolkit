@@ -26,7 +26,7 @@ zero-downtime deployment is required.
 
 ## Prompt
 
-```
+```text
 Plan the migration for: [SCHEMA CHANGE], following
 workflows/database-change.md.
 

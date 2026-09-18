@@ -26,7 +26,7 @@ actions in scope), and the project's `.ai/config.yaml`
 
 ## Prompt
 
-```
+```text
 Implement: [REQUIREMENT], following workflows/agentic-ai-feature.md.
 
 1. Restate the requirement, including what the agent must NOT do.

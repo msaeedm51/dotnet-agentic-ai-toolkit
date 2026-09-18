@@ -5,7 +5,7 @@ a published NuGet package) — not a runnable service.
 
 ## Structure
 
-```
+```text
 src/
 └── Contoso.SharedKernel/
     ├── Contoso.SharedKernel.csproj    # GenerateDocumentationFile=true,
