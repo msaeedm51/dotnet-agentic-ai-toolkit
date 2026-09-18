@@ -96,7 +96,7 @@ suite (`rules/git.md`/CI gate).
 Meets `rules/definition-of-done.md` and `rules/git.md`.
 
 ## Example
-```
+```text
 fix: prevent double-submission on slow network retry
 
 Order submission was retried by the client on timeout, but the server had
@@ -105,7 +105,7 @@ created for one user action. Add an idempotency key requirement to the
 submit endpoint.
 ```
 Not:
-```
+```text
 update OrderController.cs
 ```
 

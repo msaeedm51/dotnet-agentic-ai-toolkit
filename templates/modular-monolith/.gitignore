@@ -1,0 +1,29 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+## Test results
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+
+## Secrets — never commit
+*.env
+appsettings.*.local.json
+secrets.json
+
+## Node (if a frontend is present)
+node_modules/
+dist/
+build/
+
+## OS
+.DS_Store
+Thumbs.db

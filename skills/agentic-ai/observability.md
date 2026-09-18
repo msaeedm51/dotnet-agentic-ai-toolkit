@@ -40,7 +40,7 @@ version produced this response") — instrument for those specifically.
 2. Log every model call's key metadata: prompt version, model/provider
    used, token counts (input/output), latency, and cost — this is the data
    `agentic-ai.cost-optimization` and `agentic-ai.reliability` depend on.
-3. Log every tool call: which tool, arguments (redacted if sensitive), 
+3. Log every tool call: which tool, arguments (redacted if sensitive),
    result summary, success/failure, latency.
 4. Log the agent's actual decisions (which step it took and why, if the
    model provides reasoning) at a level useful for debugging without

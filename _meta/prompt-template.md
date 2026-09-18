@@ -31,7 +31,7 @@ doesn't silently produce a generic answer for lack of context.
 
 ## Prompt
 
-```
+```text
 <The actual reusable prompt text, written for "the AI assistant," with
 placeholders in ALL_CAPS or <angle-brackets> for the caller to fill in.>
 ```

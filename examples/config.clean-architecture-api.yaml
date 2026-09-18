@@ -1,0 +1,24 @@
+# Example .ai/config.yaml for a Clean Architecture ASP.NET Core API backed
+# by SQL Server. Copy into a consuming project's .ai/config.yaml and adjust.
+# Validated against schemas/config.schema.json.
+
+project:
+  name: contoso-orders-api
+  type: internal-api
+  domains: [dotnet]
+  architecture: clean-architecture
+
+backend:
+  framework: aspnetcore
+  dotnet_version: "8.0"
+  database: sqlserver
+  orm: efcore
+
+deployment:
+  platform: azure
+  ci: github-actions
+
+rules:
+  strict_architecture: true
+  require_tests: true
+  require_security_review: true

@@ -1,0 +1,28 @@
+# Example .ai/config.yaml for a modular monolith with a React/TypeScript
+# frontend, backed by PostgreSQL, deployed as a container on Azure.
+# Validated against schemas/config.schema.json.
+
+project:
+  name: contoso-platform
+  type: saas-backend
+  domains: [dotnet]
+  architecture: modular-monolith
+
+backend:
+  framework: aspnetcore
+  dotnet_version: "8.0"
+  database: postgresql
+  orm: efcore
+
+frontend:
+  framework: react
+  language: typescript
+
+deployment:
+  platform: azure
+  ci: github-actions
+
+rules:
+  strict_architecture: true
+  require_tests: true
+  require_security_review: true

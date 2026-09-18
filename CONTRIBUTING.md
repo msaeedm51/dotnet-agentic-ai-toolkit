@@ -23,18 +23,31 @@ repo?**
    `index/*.yaml` file. A skill/agent/rule/workflow that exists but isn't
    indexed is effectively invisible to the retrieval flow described in
    `AGENTS.md`.
-4. **Validate against schema.** Run the schema validation described in
-   `.github/workflows/validate-schema.yml` locally before pushing
-   (`schemas/*.schema.json`).
-5. **Stay LLM-agnostic in `skills/`, `rules/`, `agents/`, `workflows/`,
+4. **Validate against schema.** Run `python scripts/validate.py` locally
+   before pushing — it checks frontmatter against `schemas/*.schema.json`,
+   every `requires`/`related`/`optional`/etc. reference, and
+   `index/*.yaml` completeness. CI runs the same script
+   (`.github/workflows/validate-schema.yml`).
+5. **Lint markdown/YAML.** `npx markdownlint-cli2 "**/*.md"` and
+   `yamllint -c .yamllint.yml index/ examples/` — both run in CI
+   (`.github/workflows/lint.yml`). The `.markdownlint.json` config
+   deliberately disables the blank-line-around-headings/lists rules
+   (MD022/MD031/MD032/MD060): every skill/agent/rule/workflow file uses a
+   compact "heading directly followed by content" style consistently
+   throughout the toolkit, which is valid CommonMark and renders correctly
+   on GitHub — those rules just enforce a different style preference, not
+   a correctness issue. MD003 and MD020 are disabled because they false-
+   positive on this repo's content (`_meta/*.md`'s HTML-comment-before-
+   frontmatter header, and headings ending in "C#").
+6. **Stay LLM-agnostic in `skills/`, `rules/`, `agents/`, `workflows/`,
    `prompts/`.** Write "the AI assistant must," never "Claude must" or "GPT
    should." Vendor-specific phrasing belongs only in `adapters/*.md`.
-6. **No duplication.** If your content overlaps an existing file by more than
+7. **No duplication.** If your content overlaps an existing file by more than
    a paragraph, extend that file (and its `related`/`requires` links) instead
    of creating a new one. If you're adding an agentic-AI concern that's
    really a general engineering concern in disguise (e.g. "logging"), put it
    in the shared `dotnet` track and have the `agentic-ai` skill `require` it.
-7. **One practical example per skill,** using modern C# / .NET or the
+8. **One practical example per skill,** using modern C# / .NET or the
    relevant stack — not a toy snippet, and not prose-only theory.
 
 ## Style

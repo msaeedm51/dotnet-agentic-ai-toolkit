@@ -1,0 +1,27 @@
+# Example .ai/config.yaml for a small, single-purpose minimal API service
+# with no separate architecture layering — intentionally lightweight.
+# Validated against schemas/config.schema.json.
+
+project:
+  name: contoso-notifications-service
+  type: internal-microservice
+  domains: [dotnet]
+  architecture: vertical-slice
+
+backend:
+  framework: minimal-api
+  dotnet_version: "8.0"
+  database: postgresql
+  orm: dapper
+
+deployment:
+  platform: linux-docker
+  ci: github-actions
+
+rules:
+  # This service is intentionally simple — do not push Clean Architecture
+  # layering onto it (rules/architecture.md: prefer the simplest
+  # architecture that satisfies requirements).
+  strict_architecture: false
+  require_tests: true
+  require_security_review: true

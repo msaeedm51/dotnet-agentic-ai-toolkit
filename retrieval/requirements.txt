@@ -1,0 +1,15 @@
+# Core — required regardless of which provider you use.
+numpy>=1.24
+
+# Provider-specific — install only what you need (get_provider() imports
+# each lazily, so an unused provider's SDK doesn't need to be installed):
+#
+#   openai / azure-openai providers:
+# openai>=1.0
+#
+#   local provider (self-hosted, no data leaves the machine):
+# sentence-transformers>=2.2
+
+# MCP server (retrieval/mcp-server/server.py) — not needed for
+# build_index.py or query.py alone:
+# mcp>=1.0,<2
