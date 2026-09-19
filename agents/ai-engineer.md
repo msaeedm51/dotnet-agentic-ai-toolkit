@@ -40,6 +40,12 @@ project's `.ai/config.yaml` calls for one.
   (`rules/agentic-ai.md`, `skills/agentic-ai/ai-security.md`).
 - Build or update an evaluation harness for behavior changes — the
   agentic-AI equivalent of a unit test (`skills/agentic-ai/evaluation.md`).
+- For RAG, implement the architect's baseline first, then add retrieval
+  patterns one at a time, each only for a failure the evaluation set
+  measured, re-running the evaluation after each
+  (`skills/agentic-ai/rag-patterns.md`). If no retrieval decision was
+  handed off, follow its "When the User Is Unsure" section instead of
+  guessing or asking the user to pick a technique.
 - Reuse the general .NET track for everything that isn't AI-specific: API
   surface, persistence, auth, logging — via each skill's `requires`, not by
   re-deriving .NET patterns inside the agentic-AI skill files.
@@ -52,7 +58,7 @@ project's `.ai/config.yaml` calls for one.
 - The requirement or the architect's handoff brief (which agent pattern was
   chosen and why).
 - The project's `.ai/config.yaml` → `ai.model_providers`, `ai.frameworks`,
-  `ai.patterns`.
+  `ai.patterns`, and for RAG `ai.rag` (chunking, patterns, evaluation set).
 - Existing codebase (read before writing, per `AGENTS.md` §1).
 
 ## Outputs
@@ -87,7 +93,9 @@ is connected, may use it to search this toolkit's own corpus semantically.
 - **Default (agentic-ai track):** `agentic-ai.fundamentals.agent-loops`,
   `agentic-ai.tool-calling`, `agentic-ai.context-engineering`, plus the
   task-specific skill (`rag`, `memory`, `mcp`, `multi-agent-systems`, etc.)
-  resolved via `index/skills.yaml`.
+  resolved via `index/skills.yaml`. For RAG that means `agentic-ai.rag` and
+  `agentic-ai.chunking`, plus `agentic-ai.rag-patterns` whenever the
+  technique is unspecified or the baseline evaluation shows a failure.
 - **Task-specific:** resolved via `index/skills.yaml` per `AGENTS.md` §4,
   including `optional` framework skills only when `.ai/config.yaml` names
   one.

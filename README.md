@@ -66,30 +66,165 @@ condensed version is in `CONTRIBUTING.md`.
 
 ## Using this in a project
 
-This toolkit is consumed, not copied line-by-line into your project. Recommended
-layout inside a consuming repository:
+This toolkit is consumed, not copied line-by-line into your project. It takes
+about five minutes to set up. You need `git`, plus PowerShell (Windows) or bash
+(macOS, Linux, Git Bash). Python is only needed for the optional config check
+in step 3.
+
+After setup, your project looks like this:
 
 ```text
 my-project/
 ├── .ai/
-│   ├── toolkit/           ← this repo, as a git submodule (read-only, versioned)
+│   ├── toolkit/           ← this repo (git submodule or a copy; read-only)
 │   ├── config.yaml         ← project-owned, validated against schemas/config.schema.json
 │   └── overrides/          ← optional project-specific rule/architecture overrides (ADRs)
-├── CLAUDE.md                ← generated from adapters/claude.md + config.yaml
+├── CLAUDE.md                ← entry file your assistant reads (name depends on the assistant)
 ├── .cursorrules
 ├── .github/copilot-instructions.md
 └── ...
 ```
 
+### 1. Get the toolkit
+
+Clone it anywhere outside your project. You only run its install script from
+this clone.
+
 ```bash
-# from your project root
-./path/to/dotnet-agentic-ai-toolkit/scripts/install.sh --adapter claude
+git clone https://github.com/msaeedm51/dotnet-agentic-ai-toolkit.git
 ```
 
-The install script adds the toolkit as a submodule under `.ai/toolkit`, copies a
-starter `config.yaml` into `.ai/`, and generates the adapter entry file(s) for
-whichever assistant(s) you name. See `scripts/install.sh` (or `.ps1`) and
-`adapters/` for details.
+### 2. Install it into your project
+
+Run the script from **your project's root**, not from the toolkit folder.
+
+Windows (PowerShell):
+
+```powershell
+cd C:\path\to\your-project
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\path\to\dotnet-agentic-ai-toolkit\scripts\install.ps1 -Adapter claude
+```
+
+macOS, Linux, or Git Bash:
+
+```bash
+cd /path/to/your-project
+/path/to/dotnet-agentic-ai-toolkit/scripts/install.sh --adapter claude
+```
+
+Pick the adapter for the assistant you use:
+
+| Assistant | Adapter value | File created |
+|---|---|---|
+| Claude Code | `claude` | `CLAUDE.md` |
+| Cursor | `cursor` | `.cursorrules` |
+| Windsurf | `windsurf` | `.windsurfrules` |
+| GitHub Copilot | `copilot` | `.github/copilot-instructions.md` |
+| ChatGPT, Gemini | none | No file entry point; follow [`adapters/chatgpt.md`](adapters/chatgpt.md) or [`adapters/gemini.md`](adapters/gemini.md) |
+
+To set up several assistants, repeat the flag in bash
+(`--adapter claude --adapter cursor`). In PowerShell, call the script directly
+with a comma list (`& C:\path\to\install.ps1 -Adapter claude,cursor`) because
+`powershell -File` does not accept comma lists.
+
+By default the toolkit is added as a **git submodule** at `.ai/toolkit`, so you
+can pin and update it. Add `--copy` (bash) or `-Copy` (PowerShell) to take a
+plain snapshot instead. Copy mode is used automatically when your project is not
+a git repository. The script never overwrites an existing `.ai/config.yaml` or
+entry file.
+
+### 3. Configure `.ai/config.yaml`
+
+The installer seeds a minimal .NET config. Open `.ai/config.yaml` and adjust it
+to your project, or start from the closest file in [`examples/`](examples/):
+
+| Example | Use for |
+|---|---|
+| [`config.minimal-api.yaml`](examples/config.minimal-api.yaml) | Small single-purpose minimal API, no layering |
+| [`config.clean-architecture-api.yaml`](examples/config.clean-architecture-api.yaml) | Clean Architecture ASP.NET Core API on SQL Server |
+| [`config.modular-monolith.yaml`](examples/config.modular-monolith.yaml) | Modular monolith with a React/TypeScript frontend on PostgreSQL |
+| [`config.agentic-ai-support-agent.yaml`](examples/config.agentic-ai-support-agent.yaml) | An LLM agent or RAG assistant |
+
+**Building an AI agent or RAG feature?** Add `agentic-ai` to `domains` and an
+`ai:` block, otherwise the agentic-AI skills are not resolved:
+
+```yaml
+project:
+  name: my-project
+  domains: [dotnet, agentic-ai]
+ai:
+  enabled: true
+  model_providers: [anthropic]   # your provider(s)
+  frameworks: []                 # empty = framework-neutral
+  patterns: [rag]                # rag, tool-use, single-agent, multi-agent
+```
+
+Not sure which RAG technique or chunking strategy to use? Leave `ai.rag` out. The
+assistant treats the project as undecided, picks a sensible baseline, measures
+it, and writes its decision back to `ai.rag`. See
+[`skills/agentic-ai/rag-patterns.md`](skills/agentic-ai/rag-patterns.md).
+
+Optional: check the config against the schema (`pip install pyyaml jsonschema`
+first).
+
+```bash
+python -c "import json,yaml,jsonschema; jsonschema.validate(yaml.safe_load(open('.ai/config.yaml',encoding='utf-8')), json.load(open('.ai/toolkit/schemas/config.schema.json',encoding='utf-8'))); print('config OK')"
+```
+
+### 4. Start your assistant
+
+Open your project in a **new** session. Assistants read their entry file
+(`CLAUDE.md`, `.cursorrules`, and so on) only at session start, so a session
+opened before the install will not see the toolkit.
+
+The entry file tells the assistant to read `.ai/toolkit/AGENTS.md`,
+`.ai/toolkit/RULES.md` and `.ai/config.yaml`, then load only the skills, rules
+and workflows the task needs from `.ai/toolkit/index/*.yaml`. To confirm it
+works, watch the assistant's first tool calls: it should read those files
+before it starts on your task.
+
+### 5. Ask for work
+
+Describe the task in plain language. You do not need to name skills or agents.
+The assistant matches your request against the triggers in `index/*.yaml`, loads
+the matching skills and their required dependencies, and follows the matching
+workflow. For example:
+
+- "Add a `POST /orders` endpoint with validation and tests."
+- "Review this branch for security problems."
+- "Build a support agent that answers questions from our docs."
+- "I need RAG over `docs/policies`, but I'm not sure which approach to use."
+
+Reusable prompt templates are in [`prompts/`](prompts/), for example
+[`prompts/agentic-ai/rag-implementation.md`](prompts/agentic-ai/rag-implementation.md).
+
+### 6. Customise
+
+- **Project-specific rules:** put them in `.ai/overrides/*.md`. They take
+  precedence over the toolkit's defaults (see [RULES.md](RULES.md)).
+- **Stack details:** keep `.ai/config.yaml` current (database, ORM, providers).
+  The assistant checks it before asking you questions.
+- **Do not edit `.ai/toolkit/`.** Treat it as read-only so you can update it.
+
+### 7. Update the toolkit
+
+- **Submodule install:** `git submodule update --remote .ai/toolkit`, then
+  commit the updated pointer.
+- **Copy install:** delete `.ai/toolkit/`, pull the latest toolkit clone, and
+  re-run the install script. Your `.ai/config.yaml` and entry files are kept.
+
+### Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| The assistant ignores the toolkit | Check the entry file exists at the project root, then start a **new** session. |
+| PowerShell blocks the script | Use `-ExecutionPolicy Bypass` as shown in step 2. |
+| `-Adapter claude,cursor` is rejected | Call the script directly (`& .\install.ps1 -Adapter claude,cursor`) instead of through `powershell -File`. |
+| Config check fails with `expected '<document start>'` | The file has a UTF-8 BOM from an older installer. Strip it: `$p='.ai\config.yaml'; $t=[IO.File]::ReadAllText((Resolve-Path $p)); [IO.File]::WriteAllText((Resolve-Path $p),$t,(New-Object Text.UTF8Encoding $false))` |
+| "Target is not a git repository" | Expected. The installer falls back to copy mode. |
+| The agentic-AI skills are not used | Confirm `domains` includes `agentic-ai` and `ai.enabled` is `true`. |
+
+For assistant-specific details, see the files in [`adapters/`](adapters/).
 
 ## Status
 

@@ -74,6 +74,27 @@
         "patterns": {
           "type": "array",
           "items": { "enum": ["rag", "multi-agent", "tool-use", "single-agent", "none"] }
+        },
+        "rag": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Recorded RAG decisions; only meaningful when 'rag' is in ai.patterns. Unset means undecided: the AI follows agentic-ai.rag-patterns 'When the User Is Unsure' and writes the outcome back here.",
+          "properties": {
+            "chunking": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Chunking strategies in use, named as in the agentic-ai.chunking catalog, e.g. ['structure-aware', 'parent-child']."
+            },
+            "patterns": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "RAG patterns adopted beyond the naive baseline (which is implied), named as in agentic-ai.rag-patterns, e.g. ['hybrid-search', 'reranking']. List a pattern only after an evaluation showed it earns its cost."
+            },
+            "evaluation_set": {
+              "type": "string",
+              "description": "Repo-relative path to the RAG evaluation question set (answerable, unanswerable, unauthorized cases)."
+            }
+          }
         }
       }
     },

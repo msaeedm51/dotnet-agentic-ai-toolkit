@@ -6,7 +6,7 @@ domain: agentic-ai
 technologies: [dotnet, postgresql, pgvector]
 triggers: [vector search, similarity search, nearest neighbor search, ivfflat, hnsw]
 requires: [agentic-ai.embeddings]
-related: [agentic-ai.rag, dotnet.database.postgresql]
+related: [agentic-ai.rag, agentic-ai.rag-patterns, dotnet.database.postgresql]
 optional: []
 prerequisites: [agentic-ai.embeddings]
 tags: [vector-search, rag]
@@ -154,4 +154,5 @@ public sealed class PgVectorSearchService(NpgsqlDataSource dataSource, IEmbeddin
 ## Related Skills
 - `agentic-ai.embeddings` — producing the vectors this searches.
 - `agentic-ai.rag` — the primary consumer.
+- `agentic-ai.rag-patterns` — hybrid (vector + keyword) search, reranking, and other retrieval patterns layered on this.
 - `dotnet.database.postgresql` — `pgvector` setup and index tuning detail.

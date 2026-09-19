@@ -4,7 +4,7 @@ title: Agentic AI Feature Development
 category: workflow
 triggers: [build an agent, implement rag, add tool calling, build a support agent]
 agents_involved: [agent.architect, agent.ai-engineer, agent.test-engineer, agent.security-reviewer, agent.code-reviewer, agent.performance-engineer]
-skills_loaded: []
+skills_loaded: [agentic-ai.rag, agentic-ai.rag-patterns, agentic-ai.chunking]
 tags: [agentic-ai, feature-development, multi-agent]
 ---
 
@@ -54,6 +54,10 @@ or any capability under `skills/agentic-ai/`.
 - **Output:** Assumptions list / confirmed config.
 - **Gate:** No unresolved load-bearing ambiguity (especially: what
   irreversible actions, if any, the agent can take).
+- **Note:** An unchosen RAG technique, chunking strategy, or retrieval
+  pattern is not a clarification gap. If the user is unsure, do not block:
+  stage 4 resolves it (`agentic-ai.rag-patterns` — "When the User Is
+  Unsure").
 
 ### 3. Inspect existing code
 - **Actions:** Run `workflows/project-discovery.md` if not already done;
@@ -68,14 +72,27 @@ or any capability under `skills/agentic-ai/`.
   multi-agent — per `skills/agentic-ai/fundamentals/`. Default to the
   simplest pattern that fits; multi-agent requires a stated, concrete
   scope justification.
-- **Output:** Pattern decision.
+- **RAG only:** If the pattern includes RAG, `agent.architect` also records
+  a provisional retrieval decision. Read `ai.rag` from `.ai/config.yaml`;
+  if unset, follow `agentic-ai.rag-patterns` ("When the User Is Unsure"):
+  inspect the corpus, ask at most three questions the project cannot
+  answer, choose chunking per content type (`agentic-ai.chunking`), and
+  name a baseline plus candidate upgrades.
+- **Output:** Pattern decision (plus the provisional retrieval decision for
+  RAG).
 - **Gate:** The pattern isn't more complex than the task requires
-  (`agentic-ai.fundamentals.multi-agent-systems` anti-pattern check).
+  (`agentic-ai.fundamentals.multi-agent-systems` anti-pattern check). For
+  RAG: nothing beyond the baseline is adopted without a measured failure or
+  a stated data-shape requirement.
 
 ### 5. Design
 - **Actions:** Design the context/tool/prompt structure; identify bounds
   (steps, cost, timeout), guardrails needed, and human-in-the-loop
   checkpoints for any irreversible tool action.
+- **RAG only:** The design also states the chunking strategy per content
+  type, the baseline pipeline, the authorization model applied to every
+  retrieval path, each candidate upgrade with the failure that would
+  trigger it, and the evaluation plan.
 - **Output:** Design + implementation plan.
 - **Gate:** Every irreversible action identified in step 1 has a planned
   human-in-the-loop checkpoint (`agentic-ai.human-in-the-loop`).
@@ -93,8 +110,15 @@ or any capability under `skills/agentic-ai/`.
 - **Actions:** Build/extend an evaluation suite covering happy-path, edge,
   and adversarial (prompt-injection-style) cases
   (`agentic-ai.evaluation`).
+- **RAG only:** Build the starter evaluation set (answerable,
+  unanswerable, unauthorized) before adopting any pattern, and treat
+  stages 6-7 as a loop: implement the baseline, measure it, adopt at most
+  one pattern for a measured failure, re-measure, repeat. Report retrieval
+  and generation metrics separately.
 - **Output:** Evaluation suite with a baseline pass rate.
-- **Gate:** At least one adversarial case is included and passes.
+- **Gate:** At least one adversarial case is included and passes. For RAG:
+  the abstention and unauthorized-access cases pass, and each adopted
+  pattern has a before/after result.
 
 ### 8. Security review
 - **Actions:** `agent.security-reviewer` checks the instruction-source

@@ -5,8 +5,8 @@ category: skill
 domain: agentic-ai
 technologies: [dotnet, aspnetcore, embeddings, vector-search]
 triggers: [rag, retrieval augmented generation, knowledge base q&a, document search with llm, grounded answers]
-requires: [dotnet.api-design, dotnet.efcore]
-related: [dotnet.database.postgresql, dotnet.security, agentic-ai.evaluation, agentic-ai.observability, agentic-ai.embeddings, agentic-ai.vector-search]
+requires: [dotnet.api-design, dotnet.efcore, agentic-ai.chunking]
+related: [dotnet.database.postgresql, dotnet.security, agentic-ai.evaluation, agentic-ai.observability, agentic-ai.embeddings, agentic-ai.vector-search, agentic-ai.rag-patterns]
 optional: [agentic-ai.frameworks.semantic-kernel]
 prerequisites: [agentic-ai.embeddings, agentic-ai.vector-search]
 tags: [rag, retrieval, embeddings, agents]
@@ -18,6 +18,13 @@ tags: [rag, retrieval, embeddings, agents]
 Ground an LLM's answer in retrieved, authoritative content instead of
 relying on its training data alone — retrieve relevant chunks from a
 knowledge source, and require the model to answer from them.
+
+This skill is the baseline (naive) pipeline. Chunking strategies live in
+`agentic-ai.chunking`; hybrid search, reranking, query transformation,
+corrective/adaptive/agentic RAG, Graph RAG, text-to-SQL, multimodal, and
+long-context alternatives live in `agentic-ai.rag-patterns`. Build and
+evaluate this baseline first, then add a pattern only for a measured
+failure.
 
 ## When to Use
 Question-answering or generation tasks over a specific, changing, or
@@ -36,7 +43,9 @@ source.
 ## Engineering Principles
 1. Chunk documents at a size that keeps semantic coherence (a chunk should
    be a complete-enough thought to be useful alone) while fitting
-   comfortably in context alongside several other retrieved chunks.
+   comfortably in context alongside several other retrieved chunks. Choose
+   the strategy per content type (`agentic-ai.chunking`), not one size for
+   everything.
 2. Retrieve top-k relevant chunks by vector similarity
    (`agentic-ai.vector-search`), optionally re-ranked, and pass only those
    into context — not the whole knowledge base.
@@ -51,6 +60,11 @@ source.
    immediately reflected.
 
 ## Step-by-Step Workflow
+0. Resolve the technique. Read `ai.rag` in `.ai/config.yaml`. If the user
+   has not chosen a chunking strategy or retrieval technique (or is unsure),
+   load `agentic-ai.rag-patterns` and follow its "When the User Is Unsure"
+   section: build this baseline first, measure it, and add patterns only
+   for measured failures. Do not stop to ask the user to choose.
 1. Chunk source documents at an appropriate size/overlap; store chunks with
    their embeddings (`agentic-ai.embeddings`) and metadata (source, section,
    last-updated).
@@ -144,6 +158,8 @@ public sealed class RagQueryHandler(IVectorSearchService search, IChatClient mod
 ```
 
 ## Related Skills
+- `agentic-ai.chunking` — strategy catalog for splitting content into chunks.
+- `agentic-ai.rag-patterns` — the other RAG types, and when to move beyond this baseline.
 - `agentic-ai.embeddings` — how chunks are vectorized.
 - `agentic-ai.vector-search` — the retrieval mechanism.
 - `agentic-ai.evaluation` — measuring retrieval and answer quality.

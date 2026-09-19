@@ -4,6 +4,86 @@ All notable changes to this repository are documented here. Format loosely
 follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
 [SemVer](https://semver.org/) once tagged.
 
+## [Unreleased]
+
+### RAG coverage
+- New skill `agentic-ai.chunking`: strategy catalog (fixed-size, sliding
+  window, sentence, recursive separator, structure-aware, code-aware/AST,
+  table/layout-aware, record-based, conversation, semantic, parent-child,
+  sentence-window, hierarchical/summary-tree, proposition/agentic,
+  contextual, late chunking, multimodal), a content-type decision table,
+  sizing starting points, and a compiled, tested C# recursive/Markdown
+  chunker that carries provenance and inherits the source ACL onto every
+  chunk.
+- New skill `agentic-ai.rag-patterns`: the RAG types beyond the naive
+  baseline — Naive/Advanced/Modular, hybrid search, reranking,
+  multi-query/RAG-Fusion, query rewriting, HyDE, step-back, decomposition,
+  parent-document, contextual retrieval, context compression, self-query,
+  conversational, multi-hop, Corrective, Self-RAG, Adaptive, Agentic,
+  federated, Graph RAG, text-to-SQL, multimodal, hierarchical,
+  memory-augmented, and the long-context/CAG alternative — with a
+  failure-to-pattern decision table and per-pattern security notes. The C#
+  example (RRF hybrid retrieval plus a bounded corrective loop that
+  abstains) is compiled and tested.
+- `agentic-ai.rag` stays the baseline and now points to both; `embeddings`
+  and `vector-search` link to the new skills, and chunking guidance that
+  pointed at `rag` now points at `chunking`.
+- `prompts/agentic-ai/rag-implementation.md` chunks per content type and
+  adds a measure-first step for adopting a pattern.
+
+### README: step-by-step usage
+- "Using this in a project" is now a seven-step guide (get the toolkit,
+  install for PowerShell and bash, adapter table, configure
+  `.ai/config.yaml` including the `agentic-ai` and undecided-`ai.rag` cases,
+  start a fresh session, example requests, customise, update) plus a
+  troubleshooting table. The copy-mode installs (PowerShell 5.1 and bash),
+  the config snippets and schema check, and the BOM repair were run against
+  scratch projects. Submodule mode and `git submodule update --remote` were
+  not run, since they pull from the published GitHub remote.
+
+### Installer fix: BOM-less generated files
+- `scripts/install.ps1` wrote `.ai/config.yaml` and the adapter entry files
+  (`CLAUDE.md`, `.cursorrules`, ...) with `Out-File -Encoding utf8`, which on
+  Windows PowerShell 5.1 emits a UTF-8 BOM. Anything reading the config with
+  a non-UTF-8 default codepage — e.g. Python's `open()` on Windows — saw
+  junk ahead of the first `#` comment and PyYAML failed with
+  `expected '<document start>', but found '<block mapping start>'`
+  at line 3. Found by a user following a documented config-validation step;
+  reproduced, then fixed by writing generated files as BOM-less UTF-8
+  (`Write-Utf8NoBom`). The script itself keeps its BOM (needed for 5.1 to
+  read its own em dashes). Verified against 5.1: default and relative
+  `-Target`, multiple adapters, and re-run leaving an existing config
+  unchanged. `install.sh` was never affected.
+- Existing installs keep the BOM; strip it with
+  `$p='.ai\config.yaml'; $t=[IO.File]::ReadAllText((Resolve-Path $p)); [IO.File]::WriteAllText((Resolve-Path $p),$t,(New-Object Text.UTF8Encoding $false))`,
+  or read the file with `encoding='utf-8'`.
+
+### RAG technique selection when the user is unsure
+- Tracing a request through `workflows/agentic-ai-feature.md` showed nobody
+  owned the RAG technique decision: stage 2 didn't list it as a gap, stage 4
+  chose only the agent pattern, stage 5 had no retrieval design, and the
+  evaluation stage came after implementation, so a user who didn't know
+  which RAG to use got an unexamined naive pipeline.
+- `agentic-ai.rag-patterns` gains a "When the User Is Unsure" procedure:
+  read `ai.rag`, inspect the corpus, ask at most three questions, choose
+  chunking by content type, build the baseline, generate a starter
+  evaluation set, add upgrades one at a time for measured failures, and
+  record the outcome. Trigger phrases added for "which RAG should I use".
+- `workflows/agentic-ai-feature.md`: unchosen RAG technique is explicitly not
+  a clarification blocker (stage 2); the architect records a provisional
+  retrieval decision (stage 4); the design states chunking, baseline,
+  candidate upgrades, and the evaluation plan (stage 5); RAG evaluation
+  loops with implementation instead of following it (stage 7).
+- `agent.architect` owns the retrieval decision; `agent.ai-engineer`
+  implements the baseline and adds patterns only for measured failures.
+  Neither loads the RAG skills by default, only when RAG is chosen.
+- `agentic-ai.rag` now `requires` `agentic-ai.chunking` (every RAG pipeline
+  needs it) and has a step 0 that resolves an unspecified technique.
+- `.ai/config.yaml`: new optional `ai.rag` block (`chunking`, `patterns`,
+  `evaluation_set`) to record the decision. Free-form strings, not enums,
+  so the schema cannot drift from the skill catalogs; unset means
+  undecided.
+
 ## [1.0.0] - 2026-09-19
 
 ### Dogfooding fixes
