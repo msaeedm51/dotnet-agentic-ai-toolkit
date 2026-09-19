@@ -40,6 +40,15 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# Windows PowerShell 5.1's `-Encoding utf8` writes a UTF-8 BOM. A BOM at the
+# start of config.yaml makes any tool that reads it with a non-UTF-8 default
+# codepage (e.g. Python's open() on Windows) see junk before the first line,
+# so generated files are written BOM-less instead.
+function Write-Utf8NoBom([string]$Path, [string]$Content) {
+    $fullPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
+    [System.IO.File]::WriteAllText($fullPath, $Content + [Environment]::NewLine, (New-Object System.Text.UTF8Encoding($false)))
+}
+
 $aiDir = Join-Path $Target ".ai"
 $toolkitDir = Join-Path $aiDir "toolkit"
 New-Item -ItemType Directory -Force -Path $aiDir | Out-Null
@@ -80,7 +89,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $aiDir "overrides") | Out-N
 
 $configPath = Join-Path $aiDir "config.yaml"
 if (-not (Test-Path $configPath)) {
-    @"
+    $configContent = @"
 # See .ai/toolkit/schemas/config.schema.json for the full shape and
 # .ai/toolkit/examples/ for filled samples per project archetype.
 project:
@@ -94,7 +103,8 @@ rules:
   strict_architecture: true
   require_tests: true
   require_security_review: true
-"@ | Out-File -FilePath $configPath -Encoding utf8
+"@
+    Write-Utf8NoBom $configPath $configContent
     Write-Host "Created $configPath — edit it to match your project."
 } else {
     Write-Host "$configPath already exists; left unchanged."
@@ -123,7 +133,7 @@ function Write-Entry([string]$RelativePath) {
     if (Test-Path $fullPath) {
         Write-Warning "$fullPath already exists; not overwriting. See adapters/ for the expected content."
     } else {
-        Get-EntryContent | Out-File -FilePath $fullPath -Encoding utf8
+        Write-Utf8NoBom $fullPath (Get-EntryContent)
         Write-Host "Created $fullPath"
     }
 }
