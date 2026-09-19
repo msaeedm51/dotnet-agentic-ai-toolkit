@@ -4,7 +4,25 @@ All notable changes to this repository are documented here. Format loosely
 follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
 [SemVer](https://semver.org/) once tagged.
 
-## [Unreleased]
+## [1.0.0] - 2026-09-19
+
+### Dogfooding fixes
+- `scripts/install.ps1` was UTF-8 without a BOM, so Windows PowerShell 5.1
+  misread its em dashes via the system codepage and failed with parser
+  errors before running a single line — found by actually running it, not
+  just reading it. Added a BOM.
+- Same script leaked a non-zero `$LASTEXITCODE` from an internal git-repo
+  probe (expected to fail when falling back to `-Copy` against a non-git
+  target) as its own exit code. Reset it after the probe.
+- `AGENTS.md` §4's resolution algorithm never referenced `index/rules.yaml`,
+  despite `RULES.md` saying rules resolve the same way skills do "per
+  `AGENTS.md` §4" — found by tracing a real task ("add JWT auth to a
+  minimal API") through the documented algorithm and seeing
+  `rules/security.md` never load. Fixed, plus the same gap in
+  `agents/dotnet-developer.md`'s hardcoded rules fallback list.
+- Both install scripts verified end-to-end (submodule and copy modes)
+  against scratch git repos, generating the exact `.ai/` layout
+  `README.md` documents.
 
 ### Retrieval layer test suite
 - `retrieval/tests/`: pytest coverage for `index_store.py` (upsert, count,
