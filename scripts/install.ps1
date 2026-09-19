@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Installs the .NET AI Engineering Toolkit into a consuming project.
 
@@ -47,9 +47,11 @@ New-Item -ItemType Directory -Force -Path $aiDir | Out-Null
 $isGitRepo = $true
 try {
     git -C $Target rev-parse --git-dir *> $null
+    if ($LASTEXITCODE -ne 0) { $isGitRepo = $false }
 } catch {
     $isGitRepo = $false
 }
+$global:LASTEXITCODE = 0
 
 $mode = if ($Copy -or -not $isGitRepo) { "copy" } else { "submodule" }
 if (-not $isGitRepo -and -not $Copy) {

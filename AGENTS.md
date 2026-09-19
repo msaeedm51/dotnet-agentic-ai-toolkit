@@ -113,8 +113,11 @@ Full strategy in [`retrieval/README.md`](retrieval/README.md) (added once the
 corpus exists to index). Summary:
 
 1. Match the task against `triggers` in `index/skills.yaml` /
-   `index/agents.yaml` / `index/workflows.yaml`, across both the `dotnet` and
-   `agentic-ai` domains.
+   `index/agents.yaml` / `index/workflows.yaml` / `index/rules.yaml`, across
+   both the `dotnet` and `agentic-ai` domains. Rule files resolve the same
+   way skills do — matching `index/rules.yaml`'s triggers, not just an
+   agent's hardcoded "Applicable rules" list, since that list can lag behind
+   what a specific task actually touches (see `RULES.md`).
 2. Always pull in a matched skill's `requires` entries — hard dependencies,
    frequently cross-domain (an `agentic-ai` skill requiring a `dotnet` one).
 3. Pull `related` entries only when the project's `.ai/config.yaml` or the

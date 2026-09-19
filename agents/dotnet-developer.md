@@ -39,7 +39,10 @@ consistent with the project's existing patterns.
 - The existing codebase (read before writing, per `AGENTS.md` §1).
 - Applicable rules: `rules/csharp.md`, `rules/dotnet.md`,
   `rules/architecture.md`, `rules/api.md` (if touching an endpoint),
-  `rules/database.md` (if touching data access).
+  `rules/database.md` (if touching data access), `rules/security.md` (if
+  touching authN/authZ, secrets, or user data — see Constraints below).
+  This list is a starting point, not a ceiling — resolve the full set via
+  `index/rules.yaml` per `AGENTS.md` §4.
 
 ## Outputs
 - A diff/implementation that compiles, passes existing tests, and includes
