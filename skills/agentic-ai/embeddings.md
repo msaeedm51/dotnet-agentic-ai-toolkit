@@ -6,7 +6,7 @@ domain: agentic-ai
 technologies: [dotnet]
 triggers: [embeddings, vectorize text, embedding model, chunk and embed]
 requires: []
-related: [agentic-ai.vector-search, agentic-ai.rag]
+related: [agentic-ai.vector-search, agentic-ai.rag, agentic-ai.chunking]
 optional: [agentic-ai.frameworks.openai, agentic-ai.frameworks.azure-openai]
 prerequisites: []
 tags: [embeddings, rag]
@@ -38,7 +38,7 @@ comparable).
    produces meaningless comparisons.
 2. Chunk before embedding for long documents — an embedding of an entire
    long document averages/dilutes meaning across everything in it, hurting
-   retrieval precision (see `agentic-ai.rag` for chunking strategy).
+   retrieval precision (see `agentic-ai.chunking` for chunking strategy).
 3. Batch embedding requests where the provider supports it — far more
    cost/latency efficient than one call per chunk.
 4. Store the embedding model identifier alongside the vectors — if the
@@ -49,7 +49,7 @@ comparable).
 
 ## Step-by-Step Workflow
 1. Chunk the source content appropriately for the use case
-   (`agentic-ai.rag`).
+   (`agentic-ai.chunking`).
 2. Call the embedding model in batches, respecting the provider's rate
    limits and batch size limits.
 3. Store each vector alongside its source chunk id, the embedding model
@@ -139,3 +139,4 @@ public sealed class DocumentIndexer(IEmbeddingService embeddings, IChunkStore st
 ## Related Skills
 - `agentic-ai.vector-search` — indexing and querying these vectors.
 - `agentic-ai.rag` — the primary consumer of embeddings in this toolkit.
+- `agentic-ai.chunking` — how content is split before it is embedded.

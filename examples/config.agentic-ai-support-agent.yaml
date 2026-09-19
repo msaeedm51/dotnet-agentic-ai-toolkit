@@ -25,6 +25,10 @@ ai:
   model_providers: [anthropic, azure-openai]
   frameworks: []          # framework-neutral: hand-rolled agent loop, no Semantic Kernel/MS Agent Framework
   patterns: [rag, tool-use]
+  rag:                    # decisions recorded per agentic-ai.rag-patterns; omit while undecided
+    chunking: [structure-aware, parent-child]
+    patterns: [hybrid-search, reranking]   # adopted after evaluation showed exact-term misses and low ranking
+    evaluation_set: tests/evaluation/support-rag-questions.yaml
 
 rules:
   strict_architecture: true

@@ -41,6 +41,12 @@ with risks and alternatives made explicit, before implementation starts.
   RAG, multi-agent) based on the actual task shape, not by default to the
   most capable-sounding pattern — see
   `skills/agentic-ai/fundamentals/agent-loops.md`.
+- When the chosen pattern includes RAG, own the retrieval decision as well:
+  a user who is unsure which RAG technique to use is not a blocker. Follow
+  `skills/agentic-ai/rag-patterns.md` ("When the User Is Unsure") — pick
+  chunking per content type, name a baseline, and list candidate upgrades
+  with the measured failure that would justify each. Do not adopt Graph
+  RAG, agentic RAG, or LLM-assisted chunking without that justification.
 
 ## Inputs
 - The requirement, as stated by the user, plus any clarifications.
@@ -53,7 +59,9 @@ with risks and alternatives made explicit, before implementation starts.
 - A risk list.
 - An ADR for any non-obvious or hard-to-reverse decision.
 - A handoff brief for the implementing agent: what to build, constraints it
-  must respect, what NOT to change.
+  must respect, what NOT to change. For RAG, this includes the provisional
+  retrieval decision (chunking, baseline, candidate upgrades, evaluation
+  plan).
 
 ## Constraints
 - Never hands off an implementation plan without having identified the
@@ -85,6 +93,9 @@ structure).
   `agentic-ai.fundamentals.multi-agent-systems`,
   `agentic-ai.fundamentals.planning`, expanded via each skill's `requires`.
 - **Task-specific:** resolved via `index/skills.yaml` per `AGENTS.md` §4.
+  When the chosen agentic-AI pattern includes RAG, also load
+  `agentic-ai.rag`, `agentic-ai.chunking`, and `agentic-ai.rag-patterns`
+  (not part of the defaults, so non-RAG tasks don't load them).
 
 ## Validation Criteria
 - Every proposed boundary can be traced to a concrete requirement or risk,

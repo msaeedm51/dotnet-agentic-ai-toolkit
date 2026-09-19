@@ -389,9 +389,29 @@ skills:
     category: skill
     triggers: [rag, retrieval augmented generation, knowledge base q&a, document search with llm, grounded answers]
     tech_tags: [dotnet, aspnetcore, embeddings, vector-search]
-    requires: [dotnet.api-design, dotnet.efcore]
-    related: [dotnet.database.postgresql, dotnet.security, agentic-ai.evaluation, agentic-ai.observability, agentic-ai.embeddings, agentic-ai.vector-search]
+    requires: [dotnet.api-design, dotnet.efcore, agentic-ai.chunking]
+    related: [dotnet.database.postgresql, dotnet.security, agentic-ai.evaluation, agentic-ai.observability, agentic-ai.embeddings, agentic-ai.vector-search, agentic-ai.rag-patterns]
     optional: [agentic-ai.frameworks.semantic-kernel]
+
+  - id: agentic-ai.rag-patterns
+    path: skills/agentic-ai/rag-patterns.md
+    title: RAG Patterns and Types
+    domain: agentic-ai
+    category: skill
+    triggers: [rag types, rag patterns, advanced rag, hybrid search, reranking, query rewriting, hyde, multi query, corrective rag, self rag, adaptive rag, agentic rag, graph rag, multimodal rag, text to sql rag, conversational rag, multi hop retrieval, cache augmented generation, which rag should i use, which rag technique, unsure which rag, best rag approach, poor retrieval quality]
+    tech_tags: [dotnet, embeddings, vector-search]
+    requires: [agentic-ai.rag]
+    related: [agentic-ai.chunking, agentic-ai.embeddings, agentic-ai.vector-search, agentic-ai.evaluation, agentic-ai.observability, agentic-ai.cost-optimization, agentic-ai.fundamentals.agent-loops, agentic-ai.tool-calling, agentic-ai.model-routing, agentic-ai.memory, agentic-ai.ai-security, dotnet.database.postgresql]
+
+  - id: agentic-ai.chunking
+    path: skills/agentic-ai/chunking.md
+    title: Chunking Strategies
+    domain: agentic-ai
+    category: skill
+    triggers: [chunking, chunking strategy, chunk size, chunk overlap, text splitter, document splitting, semantic chunking, parent child chunks, late chunking, contextual chunks]
+    tech_tags: [dotnet, embeddings, vector-search]
+    requires: [agentic-ai.embeddings]
+    related: [agentic-ai.rag, agentic-ai.rag-patterns, agentic-ai.vector-search, agentic-ai.evaluation, agentic-ai.ai-security]
 
   - id: agentic-ai.embeddings
     path: skills/agentic-ai/embeddings.md
@@ -400,7 +420,7 @@ skills:
     category: skill
     triggers: [embeddings, vectorize text, embedding model, chunk and embed]
     tech_tags: [dotnet]
-    related: [agentic-ai.vector-search, agentic-ai.rag]
+    related: [agentic-ai.vector-search, agentic-ai.rag, agentic-ai.chunking]
     optional: [agentic-ai.frameworks.openai, agentic-ai.frameworks.azure-openai]
 
   - id: agentic-ai.vector-search
@@ -411,7 +431,7 @@ skills:
     triggers: [vector search, similarity search, nearest neighbor search, ivfflat, hnsw]
     tech_tags: [dotnet, postgresql, pgvector]
     requires: [agentic-ai.embeddings]
-    related: [agentic-ai.rag, dotnet.database.postgresql]
+    related: [agentic-ai.rag, agentic-ai.rag-patterns, dotnet.database.postgresql]
 
   - id: agentic-ai.mcp
     path: skills/agentic-ai/mcp.md
