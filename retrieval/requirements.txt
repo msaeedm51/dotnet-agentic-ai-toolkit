@@ -13,3 +13,8 @@ numpy>=1.24
 # MCP server (retrieval/mcp-server/server.py) — not needed for
 # build_index.py or query.py alone:
 # mcp>=1.0,<2
+
+# Dev-only — running retrieval/tests/ (CI installs this; no provider SDK
+# is needed since the tests cover index_store/build_index/provider
+# dispatch, not real embedding calls):
+# pytest>=7.0

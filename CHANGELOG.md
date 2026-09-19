@@ -6,6 +6,20 @@ follows [Keep a Changelog](https://keepachangelog.com/); versioning follows
 
 ## [Unreleased]
 
+### Retrieval layer test suite
+- `retrieval/tests/`: pytest coverage for `index_store.py` (upsert, count,
+  update-in-place on conflict, cosine-similarity ranking, `top_k`,
+  category filter, the domain filter's NULL/`both`-matches-every-domain
+  behavior, empty-store search) and `build_index.py` (frontmatter
+  parsing, directory walking across `agents/`/`rules/`/`workflows/`/
+  nested `skills/**`, skipping files with no frontmatter `id`, the
+  `MAX_CHARS` truncation), plus `providers.get_provider()` rejecting an
+  unknown provider name. Batch J's "verified with a unit test" claim
+  described work done ad hoc and not checked in; these tests replace that
+  with something CI actually re-runs (`.github/workflows/test-retrieval.yml`,
+  `pip install numpy pytest` — no provider SDK needed, since the tests
+  exercise storage/indexing logic, not real embedding calls).
+
 ### Batch J — Retrieval Layer (Optional)
 - `retrieval/index_store.py`: SQLite-backed vector storage with
   brute-force cosine similarity search in Python (no vector-database
